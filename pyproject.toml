@@ -1,0 +1,33 @@
+[project]
+name = "uraikal"
+dynamic = ["version"]
+description = "Uraikal: a Tamil benchmark, and the Tamil text tools it scores with"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "Zhagaram Labs", email = "hello@zhagaramlabs.com" }]
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+asr = ["huggingface_hub", "numpy", "torch", "transformers"]
+tokenizers = ["protobuf", "sentencepiece", "tokenizers", "transformers"]
+prep = ["pyarrow"]
+
+[project.scripts]
+uraikal = "uraikal.cli:main"
+
+[project.urls]
+Homepage = "https://zhagaramlabs.com"
+Repository = "https://github.com/zhagaramlabs/uraikal"
+Issues = "https://github.com/zhagaramlabs/uraikal/issues"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/uraikal/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "prep.py", "transcribe.py", "README.md", "SPEC.md", "CITATION.cff", "LICENSE"]

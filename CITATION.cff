@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use Uraikal, please cite it as below."
+title: "Uraikal: a Tamil benchmark, and the Tamil text tools it scores with"
+type: software
+authors:
+  - name: "Zhagaram Labs"
+    website: "https://zhagaramlabs.com"
+repository-code: "https://github.com/zhagaramlabs/uraikal"
+url: "https://zhagaramlabs.com"
+license: Apache-2.0
+keywords: [Tamil, benchmark, speech recognition, tokenizer, NLP]
