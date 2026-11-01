@@ -18,12 +18,13 @@ import sys
 
 from uraikal.text import MARKS, tamil_share
 
-# The v0 roster: widely used open tokenizers, plus ByT5 (one token per byte) as the floor.
+# The v0 roster: widely used open tokenizers. Gated repos need HF_TOKEN and accepted licences.
 DEFAULT_TOKENIZERS = [
     "openai/gpt-oss-20b",  # o200k_harmony, the GPT-4o family
     "meta-llama/Llama-3.1-8B",
     "google/gemma-3-4b-it",
     "Qwen/Qwen3-8B",
+    "Qwen/Qwen3.5-0.8B",  # same family, mark-aware pattern
     "deepseek-ai/DeepSeek-V3",
     "mistralai/Mistral-Nemo-Base-2407",
     "CohereLabs/aya-expanse-8b",

@@ -440,5 +440,39 @@
     "round_trip": 0.996,
     "passages": 1000,
     "words": 48044
+  },
+  {
+    "uraikal_version": "0.1",
+    "track": "D",
+    "date": "2026-11-01",
+    "tokenizer": "Qwen/Qwen3.5-0.8B",
+    "vocab_size": 248077,
+    "slice": "D4.web",
+    "tokens_per_word": 4.27598682766191,
+    "bytes_per_token": 5.779938717839188,
+    "letter_cut_words": 0.6447343423469065,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.032342111691107955,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+  },
+  {
+    "uraikal_version": "0.1",
+    "track": "D",
+    "date": "2026-11-01",
+    "tokenizer": "Qwen/Qwen3.5-0.8B",
+    "vocab_size": 248077,
+    "slice": "D4.literature",
+    "tokens_per_word": 4.343622512696695,
+    "bytes_per_token": 5.691554256415171,
+    "letter_cut_words": 0.6568129726024463,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.02148533727481096,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
   }
 ]

@@ -1,5 +1,7 @@
 # Uraikal (உரைகல்): Tamil speech benchmark, v0 spec
 
+> **Status: draft.** Tracks, slices and scoring may change before v1.0. Scores are comparable only within one `uraikal_version`, and every v0.x number is preliminary.
+
 Uraikal is the touchstone every Zhagaram model is scored against. v0 covers speech: recognition (Sevi), synthesis (Oosai) and spoken conversation (Kural). Text tracks for Mozhi and Maatru come in v1.
 
 ## What it measures

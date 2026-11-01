@@ -1,6 +1,6 @@
 # Uraikal
 
-Uraikal (உரைகல், "touchstone") is Zhagaram Labs' benchmark for Tamil models, plus the Tamil text tools it scores with. This is v0.1. It covers two tracks:
+Uraikal (உரைகல், "touchstone") is Zhagaram Labs' benchmark for Tamil models, plus the Tamil text tools it scores with. This is v0.1, a **draft**: tracks and scoring may change before v1.0, and v0.x scores are preliminary. It covers two tracks:
 - **A1:** speech recognition on public read-speech test sets.
 - **D4:** how well tokenizers handle Tamil.
 
