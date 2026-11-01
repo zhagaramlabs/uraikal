@@ -30,6 +30,26 @@ from_numerals("௨௱௫")               # 205: the old system, where ௱ multip
 - `uraikal.text.normalize` is the frozen scoring normaliser.
 - `clean` is the general cleaner for pipelines.
 
+### Prosody (யாப்பு)
+
+`uraikal.yaappu` scans Tamil verse: letters → அசை → சீர் → தளை, and checks the குறள் வெண்பா. Like traditional scansion (அலகிடுதல்), it reads the couplet as one stream after புணர்ச்சி and finds the division into seven சீர், which may begin inside a word.
+
+```python
+from uraikal.yaappu import alakidu, asai, check_kural
+
+asai("அகர")        # [("அக", "நிரை"), ("ர", "நேர்")]
+[(t, name) for t, _, name in alakidu("வேண்டுதல் வேண்டாமை இலானடி சேர்ந்தார்க்கு யாண்டும் இடும்பை இல")]
+# [("வேண்டுதல்வேண்", "கூவிளங்காய்"), ("டாமை", "தேமா"), ("யிலானடி", "கருவிளம்"), ("சேர்ந்தார்க்", "தேமா"),
+#  ("கியாண்டு", "புளிமா"), ("மிடும்பை", "புளிமா"), ("யில", "மலர்")]
+check_kural("அகர முதல எழுத்தெல்லாம் ஆதி\nபகவன் முதற்றே உலகம்")  # ["வுலகம்: புளிமா is not allowed at the end"]
+```
+
+**How well it works:**
+- **All 1,330 Kurals scan as குறள் வெண்பா.** The text is Tamil Wikisource's, with 9 transcription slips corrected against a second Wikisource transcription; see `prep.py kural`.
+- **1,316 need no சீர் to begin inside a word, and 14 need one.** The checker allows at most one.
+- **0.35% of random 7-word windows of web Tamil pass** (7 of 2,000), so it rarely mistakes prose for verse.
+- **The rules:** the module docstring lists them. One is an empirical choice, not a textbook rule: ஃ may count as a short letter where the verse needs it, which four Kurals do.
+
 ## Run it
 
 Install with [uv](https://docs.astral.sh/uv/). Each extra pulls in only what its task needs:
@@ -53,6 +73,9 @@ uv run uraikal score --manifest data/a1_*.jsonl --hyp hyps/whisper-large-v3-turb
 uv run --extra prep python prep.py d4 --parquet data/sangraha/data-52.parquet --slice D4.web --n 2000 --per-doc 1
 uv run --extra prep python prep.py d4 --parquet data/madurai/project-madurai.parquet --slice D4.literature --n 1000
 uv run --extra tokenizers uraikal tokenizers --data data/d4_*.jsonl
+
+# Yaappu: the full Kural check (tests/test_yaappu.py runs it when the file exists)
+uv run python prep.py kural                       # 1,330 Kurals from Tamil Wikisource
 ```
 
 Common Voice is only distributed through [Mozilla Data Collective](https://mozilladatacollective.com/datasets?q=Tamil), which needs a login. Download the Tamil release there, then point `--dir` at the folder holding `test.tsv` and `clips/`.
@@ -95,7 +118,6 @@ Common Voice is only distributed through [Mozilla Data Collective](https://mozil
 Each piece ships in this package and is checked by a Uraikal track.
 
 - **Next:**
-  - `uraikal.yaappu`: Tamil prosody, from letters to அசை, சீர் and தளை, tested on all 1,330 Kurals.
   - `uraikal.tn`: text normalisation for speech, covering dates, ₹ amounts, units and phone numbers.
   - A grapheme-safe pre-tokenizer pattern for Hugging Face tokenizers.
 - **Later:**

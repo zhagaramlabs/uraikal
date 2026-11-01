@@ -18,4 +18,4 @@ jobs:
       - name: Self-checks
         run: for f in tests/test_*.py; do uv run --locked --extra tokenizers python "$f" || exit 1; done
       - name: Doctests
-        run: uv run --locked python -m doctest src/uraikal/text.py
+        run: uv run --locked python -m doctest src/uraikal/text.py src/uraikal/yaappu.py

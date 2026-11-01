@@ -1,9 +1,11 @@
-"""Build Uraikal manifests: A1 (JSONL: id, audio, text, slice) from public Tamil test sets, and D4 text passages.
+"""Build Uraikal data: A1 manifests (JSONL: id, audio, text, slice) from public Tamil test sets, D4 text
+passages, and the Kural text for the Yaappu checks.
 
     python prep.py fleurs                       # downloads ~400 MB from Hugging Face
     python prep.py kathbath                     # streams ~4 GB, keeps only Tamil (~1-2 GB)
     python prep.py common_voice --dir PATH      # a Common Voice Tamil download from Mozilla Data Collective
     python prep.py d4 --parquet FILE... --slice D4.web   # needs the `prep` extra (pyarrow)
+    python prep.py kural                        # the 1,330 Kurals from Tamil Wikisource, for uraikal.yaappu
 
 Licences and caveats: SPEC.md, "Data sources".
 """
@@ -126,10 +128,87 @@ def d4(args):
     print(f"wrote {out} ({min(len(rows), args.n)} passages from {len({r['source'] for r in rows})} files)")
 
 
+WIKISOURCE = "https://ta.wikisource.org/w/api.php"
+KURAL_BOOK = "திருக்குறள், மூலம்"  # Wikisource transcription of a 1997 printing, mostly split by சீர்
+# Transcription slips in that copy, each checked against Wikisource's "திருக்குறள் பரிமேலழகர் உரை"
+# (2026-11-01). Word-spacing differences are left alone: the Yaappu checker re-divides the சீர் itself.
+KURAL_ERRATA = {
+    114: (None, "எச்சத்தாற் காணப் படும்"),  # காணப்ப
+    434: (None, "அற்றந் தரூஉம் பகை"),  # த்ரூஉம்
+    738: (None, "அணியென்ப நாட்டிற்கிவ் வைந்து"),  # நாட்டிவ்
+    764: ("அழிவின்று அறைபோகா தாகி வழிவந்த", None),  # அழிவின்றி
+    784: (None, "மேற்சென்று இடித்தற் பொருட்டு"),  # மேற்செனறு
+    858: (None, "மிகலூக்கின் ஊக்குமாம் கேடு"),  # மிக்லூக்கின்
+    882: ("வாள்போல் பகைவரை அஞ்சற்க அஞ்சுக", None),  # வாள்போல
+    1134: ("காமக் கடும்புனல் உய்க்குமே நாணொடு", None),  # உய்க்கும்
+    1249: ("உள்ளத்தார் காத லவராக உள்ளிநீ", None),  # லவரால்
+}
+KURAL_WORDS = {"கெளவை": "கௌவை"}  # ஔ typed as ெ + ள, as old fonts did (Kurals 1143–1150)
+
+
+def wikisource(**params):
+    import time
+    import urllib.parse
+
+    time.sleep(0.3)  # be polite to Wikimedia
+    req = urllib.request.Request(f"{WIKISOURCE}?{urllib.parse.urlencode({**params, 'format': 'json', 'formatversion': 2})}",
+                                 headers={"User-Agent": "uraikal/0.1 (https://github.com/zhagaramlabs/uraikal)"})
+    with urllib.request.urlopen(req) as r:
+        return json.load(r)
+
+
+def kural(_args):
+    """All 1,330 Kurals from Tamil Wikisource, one per line with its source page and revision."""
+    import html
+    import re
+    import unicodedata
+
+    titles = [p["title"] for p in wikisource(action="query", list="allpages", apprefix=KURAL_BOOK + "/", aplimit=500)["query"]["allpages"]]
+    rows = {}
+    for title in titles:
+        page = wikisource(action="parse", page=title, prop="text|revid")["parse"]
+        text = html.unescape(re.sub(r"<[^>]+>", "", re.sub(r"<br ?/?>", "\n", page["text"])))
+        lines = []
+        for line in text.splitlines():
+            line = unicodedata.normalize("NFC", line).replace("⁠", "").strip()
+            if re.fullmatch(r"\d{1,4}", line) and lines:  # some pages put the number on its own line
+                lines[-1] += f" {line}"
+            elif line:
+                lines.append(line)
+        pairs = [(prev, re.fullmatch(r"(.+?)[.?]?\s*(\d{1,4})", line)) for prev, line in zip(lines, lines[1:])]
+        pairs = [(prev, m) for prev, m in pairs if m and not prev[-1].isdigit() and not re.match(r"﻿?\d", prev)]
+        printed = [int(m.group(2)) for _, m in pairs]
+        first = (sorted(printed)[len(printed) // 2] - 1) // 10 * 10  # the chapter, from its printed numbers
+        for i, (prev, m) in enumerate(pairs, 1):
+            n = first + i  # number by position: the printed numbers have typos (two 71s)
+            if n != int(m.group(2)):
+                print(f"Kural {n} is printed as {m.group(2)} on {title}")
+            rows[n] = {"n": n, "line1": " ".join(prev.split()), "line2": " ".join(m.group(1).split()),
+                       "chapter": title.split("/", 1)[1], "source": f"https://ta.wikisource.org/wiki/{title}",
+                       "revid": page["revid"]}
+        if len(pairs) != 10:
+            print(f"{title}: {len(pairs)} Kurals, expected 10")
+    for n, lines in KURAL_ERRATA.items():
+        for key, fixed in zip(("line1", "line2"), lines):
+            if fixed:
+                rows[n][key] = fixed
+    for row in rows.values():
+        for key in ("line1", "line2"):
+            for wrong, right in KURAL_WORDS.items():
+                row[key] = row[key].replace(wrong, right)
+    missing = sorted(set(range(1, 1331)) - set(rows))
+    out = DATA / "kural.jsonl"
+    with open(out, "w", encoding="utf-8") as f:
+        for n in sorted(rows):
+            f.write(json.dumps(rows[n], ensure_ascii=False) + "\n")
+    print(f"wrote {out} ({len(rows)} Kurals from {len(titles)} chapters; missing: {missing[:20] or 'none'})")
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(required=True)
     sub.add_parser("fleurs").set_defaults(fn=fleurs)
+    sub.add_parser("kural", help="the 1,330 Kurals from Tamil Wikisource, for the Yaappu checks").set_defaults(fn=kural)
     t = sub.add_parser("d4", help="tokenizer test passages from Parquet text")
     t.add_argument("--parquet", nargs="+", required=True)
     t.add_argument("--slice", required=True, help="e.g. D4.web")
