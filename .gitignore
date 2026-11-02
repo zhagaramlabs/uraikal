@@ -2,3 +2,5 @@ data/
 __pycache__/
 dist/
 .venv/
+# Track I replies name the private test items (openness policy, 2026-11-01)
+hyps/*.classics.jsonl

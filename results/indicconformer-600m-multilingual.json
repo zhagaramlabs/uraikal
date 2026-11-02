@@ -1,0 +1,47 @@
+[
+  {
+    "system": "indicconformer-600m-multilingual",
+    "type": "open-weights",
+    "uraikal_version": "0.1",
+    "track": "A",
+    "slice": "A1.fleurs",
+    "split": "test",
+    "metrics": {
+      "wer": 0.2708,
+      "cer": 0.1107
+    },
+    "n_utterances": 591,
+    "missing": 0,
+    "date": "2026-11-01"
+  },
+  {
+    "system": "indicconformer-600m-multilingual",
+    "type": "open-weights",
+    "uraikal_version": "0.1",
+    "track": "A",
+    "slice": "A1.kathbath_known",
+    "split": "test",
+    "metrics": {
+      "wer": 0.2154,
+      "cer": 0.0344
+    },
+    "n_utterances": 2759,
+    "missing": 0,
+    "date": "2026-11-01"
+  },
+  {
+    "system": "indicconformer-600m-multilingual",
+    "type": "open-weights",
+    "uraikal_version": "0.1",
+    "track": "A",
+    "slice": "A1.kathbath_unknown",
+    "split": "test",
+    "metrics": {
+      "wer": 0.2337,
+      "cer": 0.0395
+    },
+    "n_utterances": 1642,
+    "missing": 0,
+    "date": "2026-11-01"
+  }
+]

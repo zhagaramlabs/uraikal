@@ -2,6 +2,7 @@
 
     uraikal score --manifest data/a1_fleurs.jsonl --hyp hyps/whisper.jsonl --system whisper-large-v3-turbo
     uraikal tokenizers --data data/d4_*.jsonl            # D4, default roster; or --tokenizer REPO ...
+    uraikal classics --model qwen3:8b --system qwen3-8b --no-think   # track I, a model served by Ollama
 """
 import argparse
 import datetime
@@ -72,6 +73,37 @@ def tokenizers_cmd(args):
     write_json(args.out, [{"uraikal_version": URAIKAL_VERSION, "track": "D", "date": today, **r} for r in records])
 
 
+def classics_cmd(args):
+    from uraikal import classics
+
+    items = classics.items(*classics.load(args.kural, args.topics), n=args.n)
+    replies = classics.run(items, classics.ollama(args.endpoint, args.model, args.max_tokens, False if args.no_think else None),
+                           Path("hyps") / f"{args.system}.classics.jsonl")
+    write_classics(args, classics.summarise(items, replies))
+
+
+def write_classics(args, summary):
+    """Print track I scores and save them as results/<system>-classics.json."""
+    for name, m in sorted(summary.items()):
+        print(f"{name:<16}" + "  ".join(f"{k} {v:.3f}" if isinstance(v, float) else f"{k} {v}" for k, v in m.items()))
+    today = datetime.date.today().isoformat()
+    write_json(Path(args.out) / f"{args.system}-classics.json", [
+        {"system": args.system, "type": args.type, "uraikal_version": URAIKAL_VERSION, "track": "I", "slice": name,
+         "split": "test", "metrics": {k: v for k, v in m.items() if k != "n"}, "n": m["n"],
+         "max_tokens": args.max_tokens, "date": today} for name, m in sorted(summary.items())])
+
+
+def classics_args(p):
+    """Options shared with adapters for models served some other way (see oosai/eval/uraikal_classics.py)."""
+    p.add_argument("--system", required=True)
+    p.add_argument("--type", default="open-weights", choices=["open-weights", "api", "research-only", "ours"])
+    p.add_argument("--kural", default="data/kural.jsonl")
+    p.add_argument("--topics", default="data/i5_topics.tsv")
+    p.add_argument("--n", type=int, default=200, help="Kurals each for I1 and I2")
+    p.add_argument("--max-tokens", type=int, default=300)
+    p.add_argument("--out", default="results")
+
+
 def main():
     p = argparse.ArgumentParser(prog="uraikal", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(required=True)
@@ -90,6 +122,13 @@ def main():
     t.add_argument("--tokenizer", nargs="+", help="Hugging Face repos; default: the v0 roster")
     t.add_argument("--out", default="results/d4.json")
     t.set_defaults(fn=tokenizers_cmd)
+
+    c = sub.add_parser("classics", help="track I: Thirukkural recall, attribution, metre and invented verses")
+    classics_args(c)
+    c.add_argument("--model", required=True, help="Ollama model name")
+    c.add_argument("--endpoint", default="http://127.0.0.1:11434")
+    c.add_argument("--no-think", action="store_true", help="turn off a reasoning model's thinking")
+    c.set_defaults(fn=classics_cmd)
 
     args = p.parse_args()
     args.fn(args)

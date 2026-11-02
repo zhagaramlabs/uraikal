@@ -1,0 +1,65 @@
+[
+  {
+    "system": "glm-4.7-flash",
+    "type": "open-weights",
+    "uraikal_version": "0.1",
+    "track": "I",
+    "slice": "I1.recall",
+    "split": "test",
+    "metrics": {
+      "truncated": 0.46,
+      "exact": 0.0,
+      "cer": 1.8322811564267,
+      "false_refusal": 0.0
+    },
+    "n": 200,
+    "max_tokens": 300,
+    "date": "2026-11-01"
+  },
+  {
+    "system": "glm-4.7-flash",
+    "type": "open-weights",
+    "uraikal_version": "0.1",
+    "track": "I",
+    "slice": "I2.attribution",
+    "split": "test",
+    "metrics": {
+      "truncated": 0.105,
+      "correct": 0.005,
+      "same_chapter": 0.015
+    },
+    "n": 200,
+    "max_tokens": 300,
+    "date": "2026-11-01"
+  },
+  {
+    "system": "glm-4.7-flash",
+    "type": "open-weights",
+    "uraikal_version": "0.1",
+    "track": "I",
+    "slice": "I3.metre",
+    "split": "test",
+    "metrics": {
+      "truncated": 0.0,
+      "correct": 0.4
+    },
+    "n": 100,
+    "max_tokens": 300,
+    "date": "2026-11-01"
+  },
+  {
+    "system": "glm-4.7-flash",
+    "type": "open-weights",
+    "uraikal_version": "0.1",
+    "track": "I",
+    "slice": "I5.invention",
+    "split": "test",
+    "metrics": {
+      "truncated": 0.575,
+      "refused": 0.175
+    },
+    "n": 40,
+    "max_tokens": 300,
+    "date": "2026-11-01"
+  }
+]

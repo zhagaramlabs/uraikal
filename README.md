@@ -76,6 +76,10 @@ uv run --extra tokenizers uraikal tokenizers --data data/d4_*.jsonl
 
 # Yaappu: the full Kural check (tests/test_yaappu.py runs it when the file exists)
 uv run python prep.py kural                       # 1,330 Kurals from Tamil Wikisource
+
+# Track I: Thirukkural recall, attribution, metre and invented verses, for a model served by Ollama
+# (needs data/kural.jsonl and data/i5_topics.tsv; see src/uraikal/classics.py)
+uv run uraikal classics --model qwen3:8b --system qwen3-8b --no-think
 ```
 
 Common Voice is only distributed through [Mozilla Data Collective](https://mozilladatacollective.com/datasets?q=Tamil), which needs a login. Download the Tamil release there, then point `--dir` at the folder holding `test.tsv` and `clips/`.

@@ -23,7 +23,7 @@ Uraikal is the touchstone every Zhagaram model is scored against. v0 covers spee
 | | C3 Answer quality | Correct, helpful, in spoken register, understood the dialect | **New** spoken prompts |
 | | C4 Safety | Refuses harmful requests and impersonation, in Tamil | **New** spoken prompts |
 
-v0.1 also runs **D4, tokenizer efficiency**, on text. Its metrics are defined in the [README](README.md#scoring-rules).
+v0.1 also runs **D4, tokenizer efficiency**, on text, and four slices of **track I, the Thirukkural**: I1 exact recall, I2 attribution, I3 metre and I5 refusing to invent verses. D4's metrics are defined in the [README](README.md#scoring-rules); track I's are in `src/uraikal/classics.py`.
 
 ### A3 dialect slices
 
