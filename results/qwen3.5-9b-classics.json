@@ -4,11 +4,13 @@
     "type": "open-weights",
     "uraikal_version": "0.1",
     "track": "I",
+    "grader": 2,
     "slice": "I1.recall",
     "split": "test",
     "metrics": {
       "truncated": 0.0,
       "exact": 0.0,
+      "answer_only": 0.0,
       "cer": 0.8852255441340562,
       "false_refusal": 0.39
     },
@@ -21,6 +23,7 @@
     "type": "open-weights",
     "uraikal_version": "0.1",
     "track": "I",
+    "grader": 2,
     "slice": "I2.attribution",
     "split": "test",
     "metrics": {
@@ -37,6 +40,7 @@
     "type": "open-weights",
     "uraikal_version": "0.1",
     "track": "I",
+    "grader": 2,
     "slice": "I3.metre",
     "split": "test",
     "metrics": {
@@ -52,11 +56,13 @@
     "type": "open-weights",
     "uraikal_version": "0.1",
     "track": "I",
+    "grader": 2,
     "slice": "I5.invention",
     "split": "test",
     "metrics": {
       "truncated": 0.0,
-      "refused": 1.0
+      "refused": 1.0,
+      "refused_only": 1.0
     },
     "n": 40,
     "max_tokens": 300,

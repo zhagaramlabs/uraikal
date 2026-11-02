@@ -1,11 +1,17 @@
 """Track I, the classics: does a language model know the Thirukkural?
 
-- I1 recall: write Kural N word for word. Exact if the Kural's letters appear unbroken in the reply.
+- I1 recall: write Kural N word for word. Exact if the Kural's letters appear unbroken in the reply; answer
+  only if the reply's Tamil is the Kural and nothing else.
 - I2 attribution: give a Kural's number from its text. Also scored at the chapter (அதிகாரம், 10 Kurals).
 - I3 metre: is this couplet a valid குறள் வெண்பா? Half are real Kurals, half have line 1's words reversed;
   the answer key comes from uraikal.yaappu, not from us.
 - I5 invention: asked for a Kural that doesn't exist (a number past 1,330, or one about something the
-  Kural never mentions), the model should reply NONE instead of making one up.
+  Kural never mentions), the model should reply NONE instead of making one up. Refused if NONE is the answer
+  (alone on a line, or opening or closing the reply) and no couplet comes with it; refused only if the reply is
+  just NONE, as asked.
+
+Grader 2 (2026-11-02). Grader 1 counted any reply containing NONE as a refusal, including replies that quote the
+prompt's NONE and then answer, or reply NONE and then describe the Kural anyway.
 
 Items come from data/kural.jsonl (prep.py kural) and data/i5_topics.tsv (Tamil topic, tab, English
 gloss). Like every test set we build, they stay private until Uraikal v1; the scores are published.
@@ -16,10 +22,13 @@ import re
 from pathlib import Path
 
 from uraikal.score import error_rates, read_jsonl
-from uraikal.text import TAMIL_DIGITS, clean, normalize
+from uraikal.text import TAMIL_DIGITS, clean, normalize, tamil_share
 from uraikal.yaappu import check_kural
 
+GRADER = 2
 NONE = "NONE"
+NONE_ANSWER = re.compile(r"(?:^|\n)[\W\d_]*NONE[\W_]*(?:\n|$)|\bNONE[\W_]*$", re.I)  # \W also skips markdown
+NONE_ONLY = re.compile(r"[\W\d_]*NONE[\W_]*", re.I)  # an echoed item number is allowed
 TAMIL_ONLY = re.compile(r"[^஀-௿]")
 NUMBER = re.compile(r"\d+")
 
@@ -71,19 +80,35 @@ def yes_no(reply):
     return yes if yes != no else None
 
 
+def couplet(reply):
+    """Two lines in a row that could be a Kural: 2 to 6 words each, 90%+ Tamil, no digits, not a heading."""
+    lines = [x for x in (line.strip(" *#>-\t") for line in reply.split("\n")) if x]
+    verse = lambda x: (tamil_share(x) >= 0.9 and 2 <= len(x.split()) <= 6 and not x.endswith(":")
+                       and not any(c.isdigit() for c in x))
+    return any(verse(a) and verse(b) for a, b in zip(lines, lines[1:]))
+
+
+def refusal(reply):
+    """'only' if the reply is just NONE, 'answer' if NONE is its answer with more text but no couplet, else None."""
+    if NONE_ONLY.fullmatch(reply):
+        return "only"
+    return "answer" if NONE_ANSWER.search(reply) and not couplet(reply) else None
+
+
 def grade(item, reply):
     """One item's scores, from the model's reply."""
-    refused = NONE in reply.upper()
+    refused = refusal(reply)
     if item["slice"] == "I1.recall":
         cer = error_rates([(normalize(item["gold"]), normalize(reply))])["cer"]
-        return {"exact": tamil(item["gold"]) in tamil(reply), "cer": cer, "false_refusal": refused}
+        return {"exact": tamil(item["gold"]) in tamil(reply), "answer_only": tamil(item["gold"]) == tamil(reply),
+                "cer": cer, "false_refusal": refused is not None}
     if item["slice"] == "I2.attribution":
         m = NUMBER.search(reply.translate(TAMIL_DIGITS))
         n = int(m[0]) if m else None
         return {"correct": n == item["gold"], "same_chapter": n is not None and (n - 1) // 10 == (item["gold"] - 1) // 10}
     if item["slice"] == "I3.metre":
         return {"correct": yes_no(reply) == item["gold"]}
-    return {"refused": refused}
+    return {"refused": refused is not None, "refused_only": refused == "only"}
 
 
 def summarise(items_, replies):

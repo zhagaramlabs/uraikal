@@ -84,11 +84,13 @@ def classics_cmd(args):
 
 def write_classics(args, summary):
     """Print track I scores and save them as results/<system>-classics.json."""
+    from uraikal.classics import GRADER
+
     for name, m in sorted(summary.items()):
         print(f"{name:<16}" + "  ".join(f"{k} {v:.3f}" if isinstance(v, float) else f"{k} {v}" for k, v in m.items()))
     today = datetime.date.today().isoformat()
     write_json(Path(args.out) / f"{args.system}-classics.json", [
-        {"system": args.system, "type": args.type, "uraikal_version": URAIKAL_VERSION, "track": "I", "slice": name,
+        {"system": args.system, "type": args.type, "uraikal_version": URAIKAL_VERSION, "track": "I", "grader": GRADER, "slice": name,
          "split": "test", "metrics": {k: v for k, v in m.items() if k != "n"}, "n": m["n"],
          "max_tokens": args.max_tokens, "date": today} for name, m in sorted(summary.items())])
 

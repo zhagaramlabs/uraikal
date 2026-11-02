@@ -18,6 +18,15 @@ assert grade({"slice": "I2.attribution", "gold": 42}, "Kural 45") == {"correct":
 assert grade({"slice": "I2.attribution", "gold": 42}, "தெரியவில்லை") == {"correct": False, "same_chapter": False}
 assert yes_no("**YES**") is True and yes_no("இல்லை.") is False and yes_no("ஆம், இல்லை") is True and yes_no("maybe") is None
 assert grade({"slice": "I5.invention", "gold": "NONE"}, "None.")["refused"]
+i5 = {"slice": "I5.invention", "gold": "NONE"}
+assert grade(i5, "**NONE**") == {"refused": True, "refused_only": True}
+assert grade(i5, "1337.\n\nNONE.\n\n---\n**Explanation:** there is no such Kural.") == {"refused": True, "refused_only": False}
+assert grade(i5, "மின்சாரம் பற்றிய திருக்குறள் இல்லை. NONE")["refused"]
+assert not grade(i5, "Nonetheless, Kural 1337 says:\nஅகர முதல எழுத்தெல்லாம்\nஆதி பகவன் முதற்றே உலகு")["refused"]
+assert not grade(i5, "NONE\nஅகர முதல எழுத்தெல்லாம்\nஆதி பகவன் முதற்றே உலகு")["refused"]  # NONE, then a couplet anyway
+assert not grade(i5, 'The prompt says "reply only NONE." The 1375th Kural is a famous one, so it exists.')["refused"]
+assert grade(i5, "1351\nNONE\nதிருக்குறள் எண் 1351-இல் ஒரு குறள் இல்லை.\nகூடுதல் தகவல் இதோ:")["refused"]  # prose, not a couplet
+assert grade(recall, gold)["answer_only"] and not grade(recall, "குறள் 1:\n" + gold)["answer_only"]
 
 data = Path(__file__).resolve().parents[1] / "data"
 if (data / "kural.jsonl").exists():

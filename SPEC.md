@@ -170,6 +170,8 @@ Checked against the primary dataset pages on 2026-10-29. Re-check before each Ur
 | [IndicTTS (IIT Madras)](https://www.iitm.ac.in/donlab/indictts/database) | Optional B reference | Custom EULA (permits commercial use; keep IITM notice) | Unconfirmed | Read from an archived copy of the licence: needs counsel review |
 | [OpenSLR 65](https://openslr.org/65) | Optional B reference | CC BY-SA 4.0 | No official splits | Share-alike applies to redistributed derivatives |
 | [Shrutilipi](https://huggingface.co/datasets/ai4bharat/Shrutilipi) | Not used for testing | CC BY 4.0 | Train only | Broadcast audio rights not addressed on the card |
+| [Vaani Benchmark v1.0](https://huggingface.co/datasets/ARTPARK-IISc/Vaani-Benchmark-V1.0) | A2, and an external check on A3 | CC BY 4.0, gated | 879 segments, 534 speakers, about 0.9 h, 7 districts in 3 Indian states (checked 2026-11-02) | Picture descriptions, not conversation. Three human transcriptions per segment: score against all three, as the card does. Held out from the Vaani training set |
+| [SpeechArenaBench](https://huggingface.co/datasets/ai4bharat/SpeechArenaBench), [MANGO](https://huggingface.co/datasets/ai4bharat/MANGO) | B2 design: how AI4Bharat runs Tamil listening tests | Per card | Not checked | Read before running B2, so our protocol can be compared with theirs |
 
 Models named in the baselines: [IndicConformer Tamil](https://huggingface.co/ai4bharat/indicconformer_stt_ta_hybrid_ctc_rnnt_large), [Whisper](https://github.com/openai/whisper), [MMS-1b-all](https://huggingface.co/facebook/mms-1b-all), [MMS-TTS Tamil](https://huggingface.co/facebook/mms-tts-tam), [Indic Parler-TTS](https://huggingface.co/ai4bharat/indic-parler-tts), [IndicF5](https://huggingface.co/ai4bharat/IndicF5).
 
