@@ -25,6 +25,7 @@ DEFAULT_TOKENIZERS = [
     "google/gemma-3-4b-it",
     "Qwen/Qwen3-8B",
     "Qwen/Qwen3.5-0.8B",  # same family, mark-aware pattern
+    "LiquidAI/LFM3-Omni-2B",  # Qwen3's mark-blind pattern, released October 2026
     "deepseek-ai/DeepSeek-V3",
     "mistralai/Mistral-Nemo-Base-2407",
     "CohereLabs/aya-expanse-8b",
