@@ -1,0 +1,316 @@
+{
+ "training": {
+  "tamil": {
+   "documents": 149795,
+   "bytes": 1007640131
+  },
+  "english": {
+   "documents": 125121,
+   "bytes": 387553975
+  },
+  "code": {
+   "documents": 11170,
+   "bytes": 155201875
+  }
+ },
+ "sources": {
+  "tamil": "ai4bharat/sangraha verified/tam/data-0.parquet",
+  "english": "datasets/HuggingFaceFW/fineweb/sample/10BT/000_00000.parquet",
+  "code": "local Python stdlib + purelib",
+  "romanized": "https://storage.googleapis.com/gresearch/dakshina/dakshina_dataset_v1.0.tar"
+ },
+ "mixes": {
+  "mix": {
+   "english": 0.25,
+   "code": 0.1,
+   "tamil": 0.65
+  },
+  "mix80": {
+   "english": 0.15,
+   "code": 0.05,
+   "tamil": 0.8
+  }
+ },
+ "results": [
+  {
+   "tokenizer": "murai-labs/agaram-2.5b",
+   "kind": "baseline",
+   "vocab_size": 64000,
+   "D4.web": {
+    "tokens_per_word": 1.6769703622392975,
+    "bytes_per_token": 14.737852486057655,
+    "letter_cut_words": 0.20252042302577417,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 9.046744528981246e-05,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 1.9260261427025227,
+    "bytes_per_token": 12.835736053774829,
+    "letter_cut_words": 0.33194096351991087,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.000257052888631836,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "english": {
+    "tokens_per_word": 1.4326415201040548,
+    "passages": 2000
+   },
+   "romanized": {
+    "tokens_per_word": 3.0544443255963203,
+    "passages": 2000
+   }
+  },
+  {
+   "tokenizer": "google/gemma-3-4b-it",
+   "kind": "baseline",
+   "vocab_size": 262145,
+   "D4.web": {
+    "tokens_per_word": 2.4362854006586168,
+    "bytes_per_token": 10.144518296375328,
+    "letter_cut_words": 0.2543401756877788,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 9.046744528981247e-06,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 2.690741819998335,
+    "bytes_per_token": 9.187787180716926,
+    "letter_cut_words": 0.32296553349184925,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "english": {
+    "tokens_per_word": 1.3379912910705196,
+    "passages": 2000
+   },
+   "romanized": {
+    "tokens_per_word": 3.5342282597069206,
+    "passages": 2000
+   }
+  },
+  {
+   "tokenizer": "Qwen/Qwen3.5-0.8B",
+   "kind": "baseline",
+   "vocab_size": 248077,
+   "D4.web": {
+    "tokens_per_word": 4.27598682766191,
+    "bytes_per_token": 5.779938717839188,
+    "letter_cut_words": 0.6447343423469065,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.032342111691107955,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 4.343622512696695,
+    "bytes_per_token": 5.691554256415171,
+    "letter_cut_words": 0.6568129726024463,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.02148533727481096,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "english": {
+    "tokens_per_word": 1.344678504778601,
+    "passages": 2000
+   },
+   "romanized": {
+    "tokens_per_word": 3.7815274360894215,
+    "passages": 2000
+   }
+  },
+  {
+   "tokenizer": "ta-char-64k",
+   "kind": "candidate",
+   "vocab_size": 64000,
+   "D4.web": {
+    "tokens_per_word": 1.5696597145993414,
+    "bytes_per_token": 15.745413857730286,
+    "letter_cut_words": 0.06880049214290238,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 1.8025143618349846,
+    "bytes_per_token": 13.71526558891455,
+    "letter_cut_words": 0.13510271405008248,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.003106055737634685,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "english": {
+    "tokens_per_word": 2.073747855755999,
+    "passages": 2000
+   },
+   "romanized": {
+    "tokens_per_word": 4.406139694084929,
+    "passages": 2000
+   }
+  },
+  {
+   "tokenizer": "mix-64k",
+   "kind": "candidate",
+   "vocab_size": 64000,
+   "D4.web": {
+    "tokens_per_word": 1.6968166849615807,
+    "bytes_per_token": 14.565475481951093,
+    "letter_cut_words": 0.100337443570931,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 1.9671551078178338,
+    "bytes_per_token": 12.56736853243043,
+    "letter_cut_words": 0.17728080885975622,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "english": {
+    "tokens_per_word": 1.3881807385624612,
+    "passages": 2000
+   },
+   "romanized": {
+    "tokens_per_word": 4.236228473633544,
+    "passages": 2000
+   }
+  },
+  {
+   "tokenizer": "mix-128k",
+   "kind": "candidate",
+   "vocab_size": 128000,
+   "D4.web": {
+    "tokens_per_word": 1.5593765093304062,
+    "bytes_per_token": 15.849245948168088,
+    "letter_cut_words": 0.06751585441978704,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 1.7842602614270253,
+    "bytes_per_token": 13.855581349229494,
+    "letter_cut_words": 0.13371034423666003,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "english": {
+    "tokens_per_word": 1.3289788685931874,
+    "passages": 2000
+   },
+   "romanized": {
+    "tokens_per_word": 3.9143758690769066,
+    "passages": 2000
+   }
+  },
+  {
+   "tokenizer": "mix80-64k",
+   "kind": "candidate",
+   "vocab_size": 64000,
+   "D4.web": {
+    "tokens_per_word": 1.6514599341383096,
+    "bytes_per_token": 14.965511007125386,
+    "letter_cut_words": 0.08939088269086369,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 1.9080426275913747,
+    "bytes_per_token": 12.956714301298135,
+    "letter_cut_words": 0.16187905661589871,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "english": {
+    "tokens_per_word": 1.4157995438179796,
+    "passages": 2000
+   },
+   "romanized": {
+    "tokens_per_word": 4.2578885442293295,
+    "passages": 2000
+   }
+  },
+  {
+   "tokenizer": "qwen3.5+ta-32k",
+   "kind": "candidate",
+   "vocab_size": 280077,
+   "D4.web": {
+    "tokens_per_word": 1.6699978046103183,
+    "bytes_per_token": 14.799385815923564,
+    "letter_cut_words": 0.09486416313089735,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 1.8093489057962494e-05,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 1.934226958621264,
+    "bytes_per_token": 12.781314566115702,
+    "letter_cut_words": 0.16624895572263992,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 6.4263222157959e-05,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "english": {
+    "tokens_per_word": 1.344678504778601,
+    "passages": 2000
+   },
+   "romanized": {
+    "tokens_per_word": 3.7815274360894215,
+    "passages": 2000
+   }
+  }
+ ]
+}
