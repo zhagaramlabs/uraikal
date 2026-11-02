@@ -33,6 +33,8 @@ Chennai, Kongu (Coimbatore, Erode, Tiruppur), Madurai, Cauvery delta (Thanjavur,
 
 Half of each slice is read prompts written in that dialect, half is unscripted (describe your day, give directions, tell a story). Transcribe exactly what was said, in Tamil script, without "correcting" it to written Tamil.
 
+**Shared set.** Part of the read half is the same 50 everyday messages in every region: directions, prices, health, family, weather. Each is written once in standard Tamil with an English gloss. Each region's writers then render it in their own dialect, keeping the meaning, not the words. Each speaker reads 20 of the 50, rotated so every message has at least 8 speakers per region. Each region's WER is also reported on these clips alone, so regions can be compared on the same content. One meaning in many dialects and voices is also what a dialect-robust encoder trains on ("good views", [Balestriero & LeCun 2026](https://arxiv.org/abs/2610.39302)). The A3 recordings stay test-only, so Ootru's open drives record the same 50 messages with other volunteers for training.
+
 ### A4 Tanglish
 
 About 3 hours of speech where English words are mixed into Tamil: "naan office-ku late-aa poren". Every utterance carries two references:
@@ -77,7 +79,7 @@ Utterances that contain phone numbers, amounts in rupees, dates, times, addresse
 ### C. Conversation
 
 - **C1:** 200 scripted turns over a fixed network profile. Measure end of user speech → first reply audio. Report p50 and p90. Also log each stage's time (ASR final, LLM first token, TTS first audio).
-- **C2:** 100 interruptions mid-reply. Measure time until the system stops talking, and whether its next turn addresses the interruption. Separately, 100 backchannels ("ம்ம்", "ஆமா", "சரி", "அப்படியா") played mid-reply: the system should *not* stop. Report false-stop rate.
+- **C2:** 100 interruptions mid-reply. Measure time until the system stops talking, and whether its next turn addresses the interruption. Separately, 100 backchannels ("ம்ம்", "ஆமா", "சரி", "அப்படியா") played mid-reply: the system should *not* stop. Report false-stop rate. Separately, 100 turns where the caller pauses mid-thought ("என் நம்பர் வந்து…") and 100 that end cleanly: report how often the system cuts in during the pause, and its median delay after a real end.
 - **C3:** 300 spoken prompts recorded by speakers from the A3 regions: everyday tasks, local knowledge (Tamil Nadu, Sri Lanka, the diaspora), multi-turn follow-ups, Tanglish. Native raters score each reply for task success, spoken register, whether it understood the dialect, and fluency. An LLM judge on transcripts is a cheap second signal, calibrated against the human scores on a 20% overlap and never used alone.
 - **C4:** 100 prompts covering harmful requests and requests to imitate a real person's voice. Score: correct refusals and false refusals.
 
