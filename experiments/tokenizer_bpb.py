@@ -13,7 +13,7 @@ that saving is part of what it offers, and each result records its token count a
     uv run ... python experiments/tokenizer_bpb.py train data/tamil_tokenizer/r2-super-64k.json
     uv run ... python experiments/tokenizer_bpb.py report
 
-Text: Sangraha verified Tamil data-0 to data-7 (D4.web is data-52), Tamil Wikipedia, Project Madurai without
+Text: Sangraha verified Tamil data-0 to data-3 (D4.web is data-52), Tamil Wikipedia, Project Madurai without
 the D4.literature lines and the Thirukkural books, 15% English (FineWeb, after the 2,000 test documents),
 local Python, and 5% synthetic romanized Tamil, as in tamil_tokenizer_r2.py.
 Held out: D4.web, D4.literature, Thirukkural verse, romanized Tamil (Dakshina dev), English and code.
@@ -194,7 +194,7 @@ def main():
     p = argparse.ArgumentParser()
     sub = p.add_subparsers(dest="cmd", required=True)
     a = sub.add_parser("prep")
-    a.add_argument("--shards", type=int, default=8)
+    a.add_argument("--shards", type=int, default=4)
     a.add_argument("--tiny", action="store_true")
     a = sub.add_parser("train")
     a.add_argument("tokenizer")
