@@ -11,12 +11,16 @@ that saving is part of what it offers, and each result records its token count a
     # on the GPU, once per tokenizer: a Hugging Face name or a tokenizer.json path
     uv run --extra tokenizers --extra prep --with torch python experiments/tokenizer_bpb.py train murai-labs/agaram-2.5b
     uv run ... python experiments/tokenizer_bpb.py train data/tamil_tokenizer/r2-super-64k.json
-    uv run ... python experiments/tokenizer_bpb.py report
+    uv run ... python experiments/tokenizer_bpb.py train data/tamil_tokenizer/r3-grapheme-super-64k.json --seed 1
+    uv run ... python experiments/tokenizer_bpb.py report   # mean and spread over seeds
 
 Text: Sangraha verified Tamil data-0 to data-3 (D4.web is data-52), Tamil Wikipedia, Project Madurai without
 the D4.literature lines and the Thirukkural books, 15% English (FineWeb, after the 2,000 test documents),
 local Python, and 5% synthetic romanized Tamil, as in tamil_tokenizer_r2.py.
-Held out: D4.web, D4.literature, Thirukkural verse, romanized Tamil (Dakshina dev), English and code.
+Held out: D4.web, D4.literature, Thirukkural verse, romanized Tamil (Dakshina dev), English and code. Three
+tokenizer rounds were picked on D4's token counts, so D4 is development data here; fresh.web is the final Tamil
+test: FineWeb-2's Tamil test split, sampled like D4, minus any passage sharing 8 words in a row with the training text
+(`fresh` adds it to an existing eval.json; `prep` builds it too).
 Writes results/experiments/bpb/<name>.json.
 """
 import argparse
@@ -65,8 +69,48 @@ def prep(args):
             "verse": [kural_text(r) for r in lines(ROOT / "data/kural.jsonl")],
             "romanized": r1.romanized(), "english": eng_slice, "code": code}
     json.dump(held, open(BPB / "eval.json", "w"), ensure_ascii=False)
+    fresh(args)
     print(f"{len(docs)} training documents, {sum(len(d.encode()) for d in docs) / 1e9:.2f} GB; eval slices",
           {k: len(v) for k, v in held.items()})
+
+
+def fresh(args, n=2000, gram=8):
+    """Add fresh.web to eval.json: FineWeb-2 Tamil test passages (lines of 20+ words, 90%+ Tamil, up to 3 per
+    document, as prep.py d4 samples D4.web), dropping any that share `gram` words in a row with the training text."""
+    import pyarrow.parquet as pq
+    from huggingface_hub import hf_hub_download
+
+    from uraikal.text import clean, tamil_share
+
+    path = hf_hub_download("HuggingFaceFW/fineweb-2", "data/tam_Taml/test/000_00000.parquet", repo_type="dataset")
+    docs = [x for x in pq.read_table(path, columns=["text"]).column(0).to_pylist() if x]
+    rng = random.Random(0)
+    rng.shuffle(docs)
+    candidates = []
+    for doc in docs:
+        lines = [line for line in doc.split("\n") if len(line.split()) >= 20]
+        rng.shuffle(lines)
+        candidates += [p for p in (clean(line).strip() for line in lines) if tamil_share(p) >= 0.9][:3]
+        if len(candidates) >= 2 * n:
+            break
+    grams = lambda words: {tuple(words[i:i + gram]) for i in range(len(words) - gram + 1)}
+    shingles = {g: c for c, p in enumerate(candidates) for g in grams(p.split())}
+    starts = {g[0] for g in shingles}
+    seen = set()
+    with gzip.open(BPB / "train.jsonl.gz", "rt", encoding="utf-8") as f:
+        for line in f:
+            words = clean(json.loads(line)["text"]).split()
+            for i, w in enumerate(words):
+                if w in starts:
+                    c = shingles.get(tuple(words[i:i + gram]))
+                    if c is not None:
+                        seen.add(c)
+    kept = [p for c, p in enumerate(candidates) if c not in seen][:n]
+    held = json.load(open(BPB / "eval.json", encoding="utf-8"))
+    held["fresh.web"] = kept
+    json.dump(held, open(BPB / "eval.json", "w"), ensure_ascii=False)
+    print(f"fresh.web: {len(kept)} passages kept, {len(seen)} of {len(candidates)} candidates shared {gram} words "
+          "with the training text")
 
 
 def tokenizer(spec):
@@ -131,17 +175,19 @@ def train(args):
     import torch
 
     device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
-    name = args.name or (Path(args.tokenizer).stem if args.tokenizer.endswith(".json") else args.tokenizer.split("/")[-1])
+    base = args.name or (Path(args.tokenizer).stem if args.tokenizer.endswith(".json") else args.tokenizer.split("/")[-1])
+    name = f"{base}-s{args.seed}" if args.seed else base
     backend, n = tokenizer(args.tokenizer)
     bos = n  # one id past the tokenizer's own, so no tokenizer's special tokens matter
-    stream = tokens(backend, bos, name)
+    stream = tokens(backend, bos, base)
+    torch.manual_seed(args.seed)
     model, ctx = model_for(-(-(n + 1) // 64) * 64, args.size)
     model.to(device)
     embed = model.get_input_embeddings().weight.numel()
     total = sum(p.numel() for p in model.parameters())
     seqs = (len(stream) - 1) // ctx
     steps = max(1, min(seqs // args.batch, args.max_steps or seqs))
-    order = np.random.default_rng(0).permutation(seqs)[: steps * args.batch]
+    order = np.random.default_rng(args.seed).permutation(seqs)[: steps * args.batch]
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, betas=(0.9, 0.95), weight_decay=0.1,
                             fused=device.type == "cuda")
     warm = max(1, steps // 100)
@@ -167,7 +213,7 @@ def train(args):
             log.append({"step": step, "loss": round(loss.item(), 4), "seconds": round(time.time() - start)})
             print(log[-1], flush=True)
     held = json.load(open(BPB / "eval.json", encoding="utf-8"))
-    result = {"tokenizer": args.tokenizer, "name": name, "vocab_size": n, "size": args.size,
+    result = {"tokenizer": args.tokenizer, "name": name, "base": base, "seed": args.seed, "vocab_size": n, "size": args.size,
               "parameters": {"non_embedding": total - embed, "embedding": embed},
               "training": {"tokens": steps * args.batch * ctx, "stream_tokens": len(stream), "steps": steps,
                            "batch": args.batch, "context": ctx, "lr": args.lr,
@@ -182,13 +228,23 @@ def train(args):
 
 
 def report(_args):
-    rows = [json.load(open(p)) for p in sorted(RESULTS.glob("*.json"))]
-    slices = list(rows[0]["bits_per_byte"]) if rows else []
-    print(f"{'tokenizer':<26}{'vocab':>8}{'tokens':>8}" + "".join(f"{s:>14}" for s in slices))
-    for r in sorted(rows, key=lambda r: r["bits_per_byte"]["D4.web"]):
-        print(f"{r['name']:<26}{r['vocab_size']:>8}{r['training']['tokens'] / 1e6:>7.0f}M"
-              + "".join(f"{r['bits_per_byte'][s]:>14.4f}" for s in slices))
-
+    """One row per tokenizer: bits per byte by slice, as the mean over seeds, with the spread (max - min) if more
+    than one seed ran."""
+    runs = {}
+    for p in sorted(RESULTS.glob("*.json")):
+        r = json.load(open(p))
+        runs.setdefault(r.get("base", r["name"]), []).append(r)
+    slices = list(next(iter(runs.values()))[0]["bits_per_byte"]) if runs else []
+    mean = lambda rs, s: sum(r["bits_per_byte"][s] for r in rs) / len(rs)
+    print(f"{'tokenizer':<26}{'vocab':>8}{'seeds':>6}{'tokens':>8}" + "".join(f"{s:>18}" for s in slices))
+    key = "fresh.web" if "fresh.web" in slices else "D4.web"
+    for base, rs in sorted(runs.items(), key=lambda kv: mean(kv[1], key)):
+        cells = []
+        for s in slices:
+            v = [r["bits_per_byte"][s] for r in rs]
+            cells.append(f"{mean(rs, s):.4f}" + (f" ±{(max(v) - min(v)) / 2:.4f}" if len(v) > 1 else ""))
+        print(f"{base:<26}{rs[0]['vocab_size']:>8}{len(rs):>6}{rs[0]['training']['tokens'] / 1e6:>7.0f}M"
+              + "".join(f"{c:>18}" for c in cells))
 
 def main():
     p = argparse.ArgumentParser()
@@ -206,9 +262,11 @@ def main():
     a.add_argument("--log-every", type=int, default=50)
     a.add_argument("--no-compile", action="store_true")
     a.add_argument("--max-steps", type=int, help="stop early: for smoke tests, not results")
+    a.add_argument("--seed", type=int, default=0, help="model initialization and batch order")
+    sub.add_parser("fresh")
     sub.add_parser("report")
     args = p.parse_args()
-    {"prep": prep, "train": train, "report": report}[args.cmd](args)
+    {"prep": prep, "fresh": fresh, "train": train, "report": report}[args.cmd](args)
 
 
 if __name__ == "__main__":
