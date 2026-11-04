@@ -142,6 +142,10 @@ Each piece ships in this package and is checked by a Uraikal track.
 
 `URAIKAL_VERSION` in `src/uraikal/score.py` is the benchmark version. It changes only when scoring changes, for example the normaliser, a metric or a test set. Every result records it.
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Uraikal is part of [Zhagaram Labs](https://zhagaramlabs.com); related repos are [oosai](https://github.com/zhagaramlabs/oosai) (the Tamil voice agent) and [kuyil](https://github.com/zhagaramlabs/kuyil) (a tiny Tamil voice), both of which use this library.
+
 ## Licence
 
 Code: Apache 2.0 ([LICENSE](LICENSE)). Test data keeps its own licence; see the spec. To cite Uraikal, use [CITATION.cff](CITATION.cff).
