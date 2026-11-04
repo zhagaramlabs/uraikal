@@ -1,0 +1,38 @@
+name: Add a model or a result
+description: A model Uraikal should score, or a result you ran yourself
+title: "Model: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Tamil, Tanglish or English are all fine. Please don't include anyone's personal details, or a recording of anyone who hasn't agreed to share it. Security problems go to SECURITY.md, not here.
+  - type: input
+    id: model
+    attributes:
+      label: Model
+      description: A Hugging Face id or a link.
+      placeholder: e.g. openai/whisper-large-v3-turbo
+    validations:
+      required: true
+  - type: dropdown
+    id: tracks
+    attributes:
+      label: Tracks
+      multiple: true
+      options:
+        - A1 speech recognition
+        - D4 tokenizers
+        - I Thirukkural
+        - Other or not sure
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Result or how to run it
+      description: Attach the result JSON if you ran it, or say how the model is run.
+  - type: input
+    id: access
+    attributes:
+      label: Licence and access
+      placeholder: e.g. Apache 2.0, open; or gated on Hugging Face

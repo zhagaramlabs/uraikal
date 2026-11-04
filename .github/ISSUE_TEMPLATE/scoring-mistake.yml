@@ -1,0 +1,36 @@
+name: Scoring or text mistake
+description: Uraikal normalises, splits, reads or scores some Tamil wrongly
+title: "Mistake: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Tamil, Tanglish or English are all fine. Please don't include anyone's personal details, or a recording of anyone who hasn't agreed to share it. Security problems go to SECURITY.md, not here.
+  - type: textarea
+    id: text
+    attributes:
+      label: The text
+      description: The Tamil text, number, date or verse involved.
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      description: The track or the function.
+      placeholder: e.g. track A1 scoring, uraikal.numbers.to_words, yaappu
+    validations:
+      required: true
+  - type: textarea
+    id: did
+    attributes:
+      label: What Uraikal did
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What it should do, and why
+      description: The rule, grammar or source that says so, if you know it.
+    validations:
+      required: true

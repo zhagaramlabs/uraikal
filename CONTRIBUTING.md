@@ -3,6 +3,8 @@
 Uraikal is Zhagaram Labs' benchmark for Tamil models and the Tamil text library it scores with.
 Issues and pull requests are welcome, in Tamil or English.
 
+Everyone here follows our [Code of Conduct](CODE_OF_CONDUCT.md). Report security problems privately, as in [SECURITY.md](SECURITY.md), not in a public issue.
+
 ## Ways to help
 
 - **Score a model** on a track and send the result file, or report a model we should add.
