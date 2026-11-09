@@ -21,6 +21,16 @@ assert to_digits("ஆயிரம் ரூபாய நாலு பேரு �
 fused = "இருபத்தஞ்சு பேரு, நாப்பத்தொண்ணு ரூபா, தொண்ணூத்தொம்பது கிலோ"
 assert to_digits(fused) == "25 பேரு, 41 ரூபா, 99 கிலோ", to_digits(fused)
 assert to_digits("நான் நாளைக்கு பத்தாம் கிளாஸ்") == "நான் நாளைக்கு பத்தாம் கிளாஸ்"
+# Formal Tamil, fused forms included (2026-11-09: these were left as words).
+formal = {"இரண்டாயிரத்து முந்நூறு": 2300, "ஓராயிரம்": 1000, "மூன்றாயிரம்": 3000, "ஐயாயிரம்": 5000, "ஒன்பதாயிரம்": 9000,
+          "இருபத்தைந்தாயிரம்": 25000, "ஐந்நூறு": 500, "நாநூறு": 400, "இருநூற்றைம்பது": 250, "அறுநூற்று ஒன்று": 601,
+          "தொள்ளாயிரத்து": 900, "இருபத்திரண்டு": 22, "தொண்ணூற்றொன்பது": 99, "நூற்றெட்டு": 108, "ஆயிரத்தொரு": 1001,
+          "ஆயிரத்திருநூறு": 1200, "ஆயிரத்தறுநூறு": 1600, "இருபத்தோராயிரம்": 21000, "ஒரு இலட்சத்து ஐம்பதாயிரம்": 150000,
+          "லட்சத்தைம்பதாயிரம்": 150000, "இருநூத்தம்பது": 250}
+for words, n in formal.items():
+    assert to_digits(words) == str(n), (words, to_digits(words))
+for word in ["முத்தாறு", "சித்திரை", "பத்திரம்", "பெற்றெடுத்த", "கற்றல்"]:  # look fused, aren't numbers
+    assert to_digits(word) == word, word
 
 # Tamil numerals: place value, and the older multiplying system (nuance §5.6 in the pass-2 review).
 assert from_numerals("௨௦௨௬") == 2026

@@ -61,45 +61,51 @@ for i, w in enumerate(TEENS, 10):
     _M.append((w, i, False))
 for t, w in TENS.items():
     _M += [(w, t * 10, False), (w[:-2] + "த்(?:தி|து)", t * 10, False)]
-for h, w in HUNDREDS.items():
-    _M += [(w, h * 100, False), (comb(w), h * 100, False)]
+for h, w in HUNDREDS.items():  # நூத்தி or நூத்து, and the formal நூற்று
+    _M += [(w, h * 100, False), (comb(w)[:-1] + "[ிு]", h * 100, False)]
+    if w.endswith("று"):
+        _M.append((w[:-2] + "ற்று", h * 100, False))
 _M += [  # formal and other spoken variants
     ("பூஜ்யம்|ஜீரோ", 0, False), ("ஒன்று|ஒன்னு|ஒரு", 1, False), ("இரண்டு", 2, False), ("மூன்று", 3, False), ("நான்கு", 4, False),
-    ("ஐந்து", 5, False), ("ஒன்பது", 9, False), ("பதினொன்று|பதினொன்னு", 11, False), ("பன்னிரண்டு|பனிரெண்டு", 12, False),
+    ("ஐந்து|ஐஞ்சு", 5, False), ("ஒன்பது", 9, False), ("பதினொன்று|பதினொன்னு", 11, False), ("பன்னிரண்டு|பனிரெண்டு", 12, False),
     ("பதின்மூன்று", 13, False), ("பதினான்கு", 14, False), ("பதினைந்து|பதினைஞ்சு", 15, False), ("பத்தொன்பது", 19, False),
     ("நாற்பது", 40, False), ("ஐம்பது", 50, False), ("எண்பது", 80, False),
     ("நாற்பத்(?:தி|து)", 40, False), ("ஐம்பத்(?:தி|து)", 50, False), ("எண்பத்(?:தி|து)", 80, False),
-    ("நூற்று|நூத்து", 100, False), ("முந்நூறு", 300, False), ("முந்நூற்று|முன்னூற்று", 300, False),
+    ("முந்நூறு|முந்நூற்று", 300, False), ("நாநூறு|நாநூற்று", 400, False), ("ஐந்நூறு|ஐந்நூற்று", 500, False),
     ("தொண்ணூற்று", 90, False), ("அஞ்ஞூறு", 500, False),
-    # after a tens stem the next unit fuses: இருபத் + அஞ்சு -> இருபத்தஞ்சு
-    ("(?<=த்)(?:தொண்ணு|தொன்று)", 1, False), ("(?<=த்)(?:தஞ்சு|தைந்து|தைஞ்சு)", 5, False),
-    ("(?<=த்)தாறு", 6, False), ("(?<=த்)தேழு", 7, False), ("(?<=த்)தெட்டு", 8, False),
-    ("(?<=த்)(?:தொம்பது|தொன்பது)", 9, False),
     ("ஆயிர(?:ம்|த்தி|த்து)", 1000, True), ("(?<=ா)யிர(?:ம்|த்தி|த்து)", 1000, True),
-    ("லட்ச(?:ம்|த்தி|த்து)", 10**5, True), ("கோடி(?:யே)?", 10**7, True),
+    ("இ?லட்ச(?:ம்|த்தி|த்து)", 10**5, True), ("கோடி(?:யே)?", 10**7, True),
 ]
-for w in UNITS[1:] + TEENS + list(TENS.values()) + ["மூவு"]:  # ரெண்டு -> ரெண்டா before யிரம்
-    _M.append((w[:-1] + "ா(?=யிர)", (UNITS + TEENS).index(w) if w in UNITS + TEENS else
-               3 if w == "மூவு" else 10 * next(t for t, v in TENS.items() if v == w), False))
-# a fused tens stem with nothing after it in the word: இருபத் (+ தஞ்சு)
-for t, w in TENS.items():
-    _M.append((w[:-2] + "த்(?=த[ொாேெஞை])", t * 10, False))
-for w, v in [("நாற்ப", 40), ("ஐம்ப", 50), ("எண்ப", 80)]:
-    _M.append((w + "த்(?=த[ொாேெஞை])", v, False))
+# Before யிரம் a final உ becomes ஆ: ரெண்டு -> ரெண்டாயிரம், இரண்டு -> இரண்டாயிரம்.
+_M += [(w[:-1] + "ா(?=யிர)", v, False) for p, v, mult in list(_M) if not mult and not set(p) & set("([?")
+       for w in p.split("|") if w.endswith("ு")]
+_M += [("ஓரா(?=யிர)", 1, False), ("மூவா(?=யிர)", 3, False), ("ஐயா(?=யிர)", 5, False)]
 _M = [(re.compile(p), v, m) for p, v, m in _M]
+# A number word ending in த்து or ற்று fuses with a vowel-initial one: the consonant doubles and takes the vowel
+# (இருபத்து + இரண்டு -> இருபத்திரண்டு, தொண்ணூற்று + ஒன்பது -> தொண்ணூற்றொன்பது). Rows: vowel, its sign, what follows.
+_FUSED = [("அ", "", "ஞ்ச|ஞ்ஞ|ம்ப|றுப|றுந"), ("ஆ", "ா", "ற[ுா]"), ("இ", "ி", "ரண்ட|ருப|ருந"), ("எ", "ெ", "ட்ட|ண்ப|ண்ணூ|ம்ப|ழுப|ழுந"),
+          ("ஏ", "ே", "ழ[ுா]"), ("ஐ", "ை", "ந்த|ஞ்ச|ம்ப|ந்ந|நூ|யா"), ("ஒ", "ொ", "ன்று|ன்னு|ண்ணு|ன்ப|ம்ப|ரு"), ("ஓ", "ோ", "ரா")]
+_FUSED = [(re.compile(f"([தற])்\\1{sign}(?={rest})"), f"\\1்\\1ு{vowel}") for vowel, sign, rest in _FUSED]
 SUFFIX = re.compile(r"(?:ல|ல்|லே|க்கு|ஆல|னா|ன்னா|ம்)?[.,!?;:\"'()]*$")
 
 
 def _read_word(word):
-    """Morphemes covering the front of a word, if the rest is only a case ending or punctuation."""
-    pos, out = 0, []
-    while True:
-        best = max(((m.match(word, pos), v, mult) for m, v, mult in _M), key=lambda c: c[0].end() if c[0] else -1)
-        if not best[0] or best[0].end() == pos:
-            break
-        out.append((best[1], best[2]))
-        pos = best[0].end()
-    return (out, word[pos:]) if out and SUFFIX.fullmatch(word[pos:]) else (None, word)
+    """Morphemes covering the front of a word, if the rest is only a case ending or punctuation.
+    A word that doesn't read as it is is tried again with its fused numbers split (see _FUSED)."""
+    split = word
+    for pattern, unfused in _FUSED:
+        split = pattern.sub(unfused, split)
+    for w in dict.fromkeys((word, split)):
+        pos, out = 0, []
+        while True:
+            best = max(((m.match(w, pos), v, mult) for m, v, mult in _M), key=lambda c: c[0].end() if c[0] else -1)
+            if not best[0] or best[0].end() == pos:
+                break
+            out.append((best[1], best[2]))
+            pos = best[0].end()
+        if out and SUFFIX.fullmatch(w[pos:]):
+            return out, w[pos:]
+    return None, word
 
 
 def _value(morphemes):
