@@ -21,7 +21,7 @@ import random
 import re
 from pathlib import Path
 
-from uraikal.score import error_rates, read_jsonl
+from uraikal.score import error_rates, read_jsonl, same_setup
 from uraikal.text import TAMIL_DIGITS, clean, normalize, tamil_share
 from uraikal.yaappu import check_kural
 
@@ -125,10 +125,13 @@ def summarise(items_, replies):
                    **{k: v / s["n"] for k, v in s["sums"].items()}} for name, s in by_slice.items()}
 
 
-def run(items_, ask, out):
-    """Ask every item once, saving replies to `out` (JSONL) as they come, so a rerun resumes."""
+def run(items_, ask, out, setup=None):
+    """Ask every item once, saving replies to `out` (JSONL) as they come, so a rerun resumes. With `setup` (model,
+    max tokens, ...), a rerun under another setup stops instead of mixing replies."""
     out = Path(out)
     out.parent.mkdir(parents=True, exist_ok=True)
+    if setup is not None:
+        same_setup(out, setup)
     done = {r["id"]: r for r in read_jsonl(out)} if out.exists() else {}
     with open(out, "a", encoding="utf-8") as f:
         for i, item in enumerate(x for x in items_ if x["id"] not in done):

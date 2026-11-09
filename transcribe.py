@@ -15,7 +15,7 @@ import numpy as np
 import torch
 from transformers import pipeline
 
-from uraikal.score import read_jsonl
+from uraikal.score import read_jsonl, same_setup
 
 
 def load(path, sr=16000):
@@ -38,6 +38,7 @@ def main():
     rows = [r for m in args.manifest for r in read_jsonl(m)][: args.limit]
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
+    same_setup(out, {"model": args.model})  # resuming another model's file would mix two systems' hypotheses
     done = {r["id"] for r in read_jsonl(out)} if out.exists() else set()
     todo = [r for r in rows if r["id"] not in done]
     print(f"{len(todo)} to transcribe, {len(done)} already done")

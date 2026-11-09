@@ -1,9 +1,10 @@
 """Self-checks for track I grading. Run: uv run python tests/test_classics.py
 The item-set checks need data/kural.jsonl (python prep.py kural)."""
 import json
+import tempfile
 from pathlib import Path
 
-from uraikal.classics import grade, items, summarise, yes_no
+from uraikal.classics import grade, items, run, summarise, yes_no
 
 gold = "அகர முதல எழுத்தெல்லாம் ஆதி\nபகவன் முதற்றே உலகு"
 recall = {"slice": "I1.recall", "gold": gold}
@@ -41,4 +42,20 @@ if (data / "kural.jsonl").exists():
                          "truncated": False} for x in xs}
     s = summarise(xs, perfect)
     assert s["I1.recall"]["exact"] == s["I2.attribution"]["correct"] == s["I3.metre"]["correct"] == s["I5.invention"]["refused"] == 1
+
+# A rerun resumes under the same setup and stops under another, instead of mixing two setups' replies.
+with tempfile.TemporaryDirectory() as d:
+    out, asked, two = Path(d) / "m.classics.jsonl", [], [{"id": "a", "prompt": "1"}, {"id": "b", "prompt": "2"}]
+    ask = lambda p: (asked.append(p) or "NONE", False)
+    run(two[:1], ask, out, setup={"model": "m", "max_tokens": 300})
+    assert set(run(two, ask, out, setup={"model": "m", "max_tokens": 300})) == {"a", "b"} and asked == ["1", "2"]
+    try:
+        run(two, ask, out, setup={"model": "m", "max_tokens": 1000})
+        raise AssertionError("a rerun with another setup must stop")
+    except SystemExit as e:
+        assert "max_tokens" in str(e), e
+    assert len(run(two, ask, out)) == 2 and asked == ["1", "2"]  # adapters that pass no setup resume as before
+    Path(f"{out}.setup.json").unlink()
+    run(two, ask, out, setup={"model": "m", "max_tokens": 1000})  # a file from before setups were recorded: trusted
+    assert json.loads(Path(f"{out}.setup.json").read_text())["max_tokens"] == 1000 and asked == ["1", "2"]
 print("ok")

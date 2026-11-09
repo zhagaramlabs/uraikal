@@ -5,6 +5,7 @@ Spec: SPEC.md ("Scoring" and "Leaderboard").
 import json
 import sys
 from collections import defaultdict
+from pathlib import Path
 
 from uraikal.text import normalize
 
@@ -39,6 +40,23 @@ def error_rates(pairs) -> dict:
 def read_jsonl(path):
     with open(path, encoding="utf-8") as f:
         return [json.loads(line) for line in f if line.strip()]
+
+
+def same_setup(out, setup):
+    """A resumable output (hyps JSONL) must come from one setup: a rerun skips every id already in it, so a rerun
+    with another model or --max-tokens would mix two setups under one score. Records `setup` beside `out` on the
+    first run and stops a rerun whose setup differs."""
+    record, setup = Path(f"{out}.setup.json"), json.loads(json.dumps(setup))
+    if record.exists():
+        old = json.loads(record.read_text(encoding="utf-8"))
+        if old != setup:
+            raise SystemExit(f"{out} was made with {old}, not {setup}. Use another --system or --out, "
+                             f"or delete {out} and {record.name} to start over")
+        return
+    if Path(out).exists():  # made before setups were recorded: trust it, as before
+        print(f"note: {out} has no setup record; assuming it was made with {setup}", file=sys.stderr)
+    record.parent.mkdir(parents=True, exist_ok=True)
+    record.write_text(json.dumps(setup, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
 def score(manifest_rows, hyps: dict) -> dict:

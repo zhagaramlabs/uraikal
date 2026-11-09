@@ -131,11 +131,13 @@ def to_digits(text):
 
 
 def speak_digits(text):
-    """Digits in a reply as Tamil words, for the TTS (numbers of a billion or more are left alone)."""
+    """Digits in a reply as Tamil words, for the TTS (numbers of a billion or more are left alone).
+    Grouping commas, Indian (1,50,000) or Western (150,000), belong to the number."""
     def words(m):
-        x = float(m.group()) if "." in m.group() else int(m.group())
+        s = m.group().replace(",", "")
+        x = float(s) if "." in s else int(s)
         return to_words(x) if x < 10**9 else m.group()
-    return re.sub(r"\d+(?:\.\d+)?", words, text)
+    return re.sub(r"\d{1,3}(?:,\d{2,3})*,\d{3}(?:\.\d+)?|\d+(?:\.\d+)?", words, text)
 
 
 _DIGIT = {c: i for i, c in enumerate("௦௧௨௩௪௫௬௭௮௯")}

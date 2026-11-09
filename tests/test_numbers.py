@@ -2,6 +2,10 @@
 from uraikal.numbers import from_numerals, speak_digits, to_digits, to_words
 
 assert speak_digits("அது 35.75, 108-க்கு கால்") == "அது முப்பத்தி அஞ்சு புள்ளி ஏழு அஞ்சு, நூத்தி எட்டு-க்கு கால்"
+# grouping commas, Indian and Western, are part of the number; a bare list stays a list
+assert speak_digits("₹1,50,000") == "₹ஒரு லட்சத்தி அம்பதாயிரம்", speak_digits("₹1,50,000")
+assert speak_digits("12,345 பேர்") == "பன்னெண்டாயிரத்தி முன்னூத்தி நாப்பத்தி அஞ்சு பேர்"
+assert speak_digits("1,500,000") == "பதினஞ்சு லட்சம்" and speak_digits("1,2,3") == "ஒண்ணு,ரெண்டு,மூணு"
 assert to_words(45) == "நாப்பத்தி அஞ்சு", to_words(45)
 assert to_words(2300) == "ரெண்டாயிரத்தி முன்னூறு", to_words(2300)
 assert to_words(1000) == "ஆயிரம்" and to_words(1500) == "ஆயிரத்தி ஐநூறு", to_words(1500)

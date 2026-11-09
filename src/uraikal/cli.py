@@ -77,8 +77,10 @@ def classics_cmd(args):
     from uraikal import classics
 
     items = classics.items(*classics.load(args.kural, args.topics), n=args.n)
-    replies = classics.run(items, classics.ollama(args.endpoint, args.model, args.max_tokens, False if args.no_think else None),
-                           Path("hyps") / f"{args.system}.classics.jsonl")
+    think = False if args.no_think else None
+    replies = classics.run(items, classics.ollama(args.endpoint, args.model, args.max_tokens, think),
+                           Path("hyps") / f"{args.system}.classics.jsonl",
+                           setup={"model": args.model, "max_tokens": args.max_tokens, "think": think})
     write_classics(args, classics.summarise(items, replies))
 
 
