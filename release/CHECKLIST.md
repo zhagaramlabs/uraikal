@@ -27,8 +27,8 @@ releases, the website and social posts.
   stands in for it. Re-check before any update of the card.
 - [ ] Optional: accept Aya Expanse's licence on Hugging Face, then re-score from the gated repo. The copy we
   scored has the same sha256, so the numbers won't change.
-- [ ] The website leaderboard (`results/d4.json`) doesn't have the 4 new tokenizers yet. Updating it is a deploy,
-  so it needs an OK too.
+- [x] The website: on Jay's "Yes, update site" (2026-11-09), zhagaramlabs.com got an Ezhuthu model page, a home
+  page entry, and a leaderboard of 20 tokenizers read from `results/experiments/tokenizer_d4_fresh.json`.
 
 ## 128k: what's open
 
