@@ -1,0 +1,6 @@
+data/tamil_tokenizer/r2-grapheme-64k.json 0 --steps 9800 --data bpb-c --size medium --lr 3e-4 --micro 8 --name r2-grapheme-64k-350m
+data/tamil_tokenizer/r4-morph-64k.json 0 --steps 9800 --data bpb-c --size medium --lr 3e-4 --micro 8 --name r4-morph-64k-350m
+data/tamil_tokenizer/r2-bpe-64k.json 0 --steps 9800 --data bpb-c --size medium --lr 3e-4 --micro 8 --name r2-bpe-64k-350m
+data/tamil_tokenizer/r2-grapheme-64k.json 1 --steps 9800 --data bpb-c --size medium --lr 3e-4 --micro 8 --name r2-grapheme-64k-350m
+data/tamil_tokenizer/r4-morph-64k.json 1 --steps 9800 --data bpb-c --size medium --lr 3e-4 --micro 8 --name r4-morph-64k-350m
+data/tamil_tokenizer/r2-bpe-64k.json 1 --steps 9800 --data bpb-c --size medium --lr 3e-4 --micro 8 --name r2-bpe-64k-350m

@@ -1,0 +1,6 @@
+data/tamil_tokenizer/r4-grapheme-64k.json 0
+data/tamil_tokenizer/r4-grapheme-64k.json 1
+data/tamil_tokenizer/r4-grapheme-64k.json 2
+data/tamil_tokenizer/r3-grapheme-super-64k.json 0 --steps 2911 --name r3-grapheme-super-64k-steps2911
+data/tamil_tokenizer/r3-grapheme-super-64k.json 1 --steps 2911 --name r3-grapheme-super-64k-steps2911
+data/tamil_tokenizer/r3-grapheme-super-64k.json 2 --steps 2911 --name r3-grapheme-super-64k-steps2911

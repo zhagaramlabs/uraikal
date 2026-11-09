@@ -177,9 +177,10 @@ def superword(t1, texts, n_new, pattern, super_pattern):
     return bpe_from(vocab, merges, super_pattern)
 
 
-def grapheme_bpe(texts, size, pattern):
+def grapheme_bpe(texts, size, pattern, cut=None):
     """BPE whose units are whole letters: first merges build each letter from its code points, then
-    learned merges join only whole letters, so no token boundary falls inside a letter."""
+    learned merges join only whole letters, so no token boundary falls inside a letter.
+    cut(letters) -> lists of letters: training sees each part as its own word, so no merge joins two parts."""
     pre, norm = pre_tokenizers.Split(Regex(pattern), behavior="isolated"), normalizers.NFC()
     pieces = Counter(p for text in texts for p, _ in pre.pre_tokenize_str(norm.normalize_str(text)))
     letters = Counter()
@@ -202,7 +203,8 @@ def grapheme_bpe(texts, size, pattern):
     for p, n in pieces.items():
         gs = CLUSTER.findall(p)
         if all(g in sym for g in gs):
-            words["".join(sym[g] for g in gs)] += n
+            for part in cut(gs) if cut else [gs]:
+                words["".join(sym[g] for g in part)] += n
     learned = train_over_symbols(words, size - len(vocab))
     merges = list(build)
     for a, b in learned:

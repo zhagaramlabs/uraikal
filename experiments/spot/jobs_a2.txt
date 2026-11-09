@@ -1,0 +1,4 @@
+data/tamil_tokenizer/r3-bpe-64k.json 0
+data/tamil_tokenizer/r3-bpe-64k.json 1
+data/tamil_tokenizer/r3-bpe-64k.json 2
+data/hf_tokenizers/Qwen3.5-0.8B 0 --micro 4

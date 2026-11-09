@@ -1,0 +1,18 @@
+data/hf_tokenizers/agaram-2.5b 0
+data/hf_tokenizers/gemma-3-4b-it 0 --micro 4
+data/tamil_tokenizer/r3-bpe-64k.json 0
+data/hf_tokenizers/Qwen3.5-0.8B 0 --micro 4
+data/tamil_tokenizer/r3-grapheme-super-64k.json 0
+data/tamil_tokenizer/r3-grapheme-super-128k.json 0
+data/hf_tokenizers/agaram-2.5b 1
+data/tamil_tokenizer/qwen3.5+ta-32k.json 0 --micro 4
+data/tamil_tokenizer/r3-bpe-64k.json 1
+data/tamil_tokenizer/r2-bpe-64k.json 0
+data/tamil_tokenizer/r3-grapheme-super-64k.json 1
+data/tamil_tokenizer/r2-grapheme-64k.json 0
+data/hf_tokenizers/agaram-2.5b 2
+data/tamil_tokenizer/r2-bpe-128k.json 0
+data/tamil_tokenizer/r3-bpe-64k.json 2
+data/tamil_tokenizer/r2-super-64k.json 0
+data/tamil_tokenizer/r3-grapheme-super-64k.json 2
+data/tamil_tokenizer/r2-super-128k.json 0

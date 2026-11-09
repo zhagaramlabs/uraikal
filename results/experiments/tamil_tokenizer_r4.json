@@ -1,0 +1,272 @@
+{
+ "training": {
+  "tamil_bytes": 5623680400,
+  "repeated_lines_dropped": 722340,
+  "mix_bytes": 7498287673,
+  "documents": 2499745,
+  "size": 64000,
+  "switch_points": [
+   0.6,
+   0.75,
+   0.9,
+   1.0
+  ]
+ },
+ "results": [
+  {
+   "tokenizer": "r3-grapheme-super-64k",
+   "kind": "round 3, switch 0.875",
+   "vocab_size": 64000,
+   "D4.web": {
+    "tokens_per_word": 1.6511174533479693,
+    "bytes_per_token": 14.968615207875716,
+    "letter_cut_words": 3.618697811592499e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 1.9138289900924152,
+    "bytes_per_token": 12.917540348892853,
+    "letter_cut_words": 4.2842148105306e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "verse": {
+    "tokens_per_word": 2.337772527118462,
+    "passages": 1330
+   },
+   "romanized": {
+    "tokens_per_word": 2.691785217670339,
+    "passages": 2000
+   },
+   "english": {
+    "tokens_per_word": 1.2869940997945295,
+    "passages": 2000
+   },
+   "code": {
+    "tokens_per_word": 2.6638780297107116,
+    "passages": 27
+   },
+   "fresh.web": {
+    "tokens_per_word": 1.5109937673130194,
+    "passages": 2000
+   },
+   "json": {
+    "tokens_per_word": 4.057,
+    "passages": 500
+   }
+  },
+  {
+   "tokenizer": "r4-switch60-64k",
+   "kind": "round 4, switch 0.6",
+   "vocab_size": 64000,
+   "D4.web": {
+    "tokens_per_word": 1.6472623490669593,
+    "bytes_per_token": 15.003646405305414,
+    "letter_cut_words": 3.618697811592499e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 1.9141620181500292,
+    "bytes_per_token": 12.915292940715933,
+    "letter_cut_words": 4.2842148105306e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "verse": {
+    "tokens_per_word": 2.3349801310278164,
+    "passages": 1330
+   },
+   "romanized": {
+    "tokens_per_word": 2.691517809391379,
+    "passages": 2000
+   },
+   "english": {
+    "tokens_per_word": 1.290051650360987,
+    "passages": 2000
+   },
+   "code": {
+    "tokens_per_word": 2.6702892885066456,
+    "passages": 27
+   },
+   "fresh.web": {
+    "tokens_per_word": 1.507456964780372,
+    "passages": 2000
+   },
+   "json": {
+    "tokens_per_word": 4.1611666666666665,
+    "passages": 500
+   }
+  },
+  {
+   "tokenizer": "r4-switch75-64k",
+   "kind": "round 4, switch 0.75",
+   "vocab_size": 64000,
+   "D4.web": {
+    "tokens_per_word": 1.6496333699231613,
+    "bytes_per_token": 14.982081638736878,
+    "letter_cut_words": 3.618697811592499e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 1.915598201648489,
+    "bytes_per_token": 12.905609944259124,
+    "letter_cut_words": 4.2842148105306e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "verse": {
+    "tokens_per_word": 2.3386317259155835,
+    "passages": 1330
+   },
+   "romanized": {
+    "tokens_per_word": 2.6921595892608834,
+    "passages": 2000
+   },
+   "english": {
+    "tokens_per_word": 1.288144922618711,
+    "passages": 2000
+   },
+   "code": {
+    "tokens_per_word": 2.665676309616888,
+    "passages": 27
+   },
+   "fresh.web": {
+    "tokens_per_word": 1.5091017016224773,
+    "passages": 2000
+   },
+   "json": {
+    "tokens_per_word": 4.077833333333333,
+    "passages": 500
+   }
+  },
+  {
+   "tokenizer": "r4-switch90-64k",
+   "kind": "round 4, switch 0.9",
+   "vocab_size": 64000,
+   "D4.web": {
+    "tokens_per_word": 1.651073545554336,
+    "bytes_per_token": 14.969013275465917,
+    "letter_cut_words": 3.618697811592499e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 1.9112480226459079,
+    "bytes_per_token": 12.934984317825405,
+    "letter_cut_words": 4.2842148105306e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "verse": {
+    "tokens_per_word": 2.3346579314788958,
+    "passages": 1330
+   },
+   "romanized": {
+    "tokens_per_word": 2.685206974007915,
+    "passages": 2000
+   },
+   "english": {
+    "tokens_per_word": 1.2888207129257856,
+    "passages": 2000
+   },
+   "code": {
+    "tokens_per_word": 2.6666927286942923,
+    "passages": 27
+   },
+   "fresh.web": {
+    "tokens_per_word": 1.5115378907795805,
+    "passages": 2000
+   },
+   "json": {
+    "tokens_per_word": 4.057,
+    "passages": 500
+   }
+  },
+  {
+   "tokenizer": "r4-grapheme-64k",
+   "kind": "round 4, switch 1.0",
+   "vocab_size": 64000,
+   "D4.web": {
+    "tokens_per_word": 1.6765225027442372,
+    "bytes_per_token": 14.741789496841509,
+    "letter_cut_words": 3.618697811592499e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 1.9104362667554742,
+    "bytes_per_token": 12.940480470665142,
+    "letter_cut_words": 4.2842148105306e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "verse": {
+    "tokens_per_word": 2.3129631618515734,
+    "passages": 1330
+   },
+   "romanized": {
+    "tokens_per_word": 2.650550861054658,
+    "passages": 2000
+   },
+   "english": {
+    "tokens_per_word": 1.4310109521385888,
+    "passages": 2000
+   },
+   "code": {
+    "tokens_per_word": 2.7043002345582488,
+    "passages": 27
+   },
+   "fresh.web": {
+    "tokens_per_word": 1.5430475860704393,
+    "passages": 2000
+   },
+   "json": {
+    "tokens_per_word": 4.043666666666667,
+    "passages": 500
+   }
+  }
+ ]
+}

@@ -57,16 +57,18 @@ def pattern():
 def english(n_bytes, n_slice=2000):
     """The English slice, then about n_bytes of training text from later documents."""
     slice_, train, size = [], [], 0
-    with HfFileSystem().open(FINEWEB, "rb") as f:
-        for batch in pq.ParquetFile(f).iter_batches(batch_size=1000, columns=["text"]):
-            for text in batch.column(0).to_pylist():
-                if len(slice_) < n_slice:
-                    slice_.append(text)
-                elif size < n_bytes:
-                    train.append(text)
-                    size += len(text.encode())
-                else:
-                    return slice_, train
+    for k in range(15):  # sample-10BT's files, in order; earlier rounds needed only the first
+        with HfFileSystem().open(FINEWEB.replace("000_", f"{k:03d}_"), "rb") as f:
+            for batch in pq.ParquetFile(f).iter_batches(batch_size=1000, columns=["text"]):
+                for text in batch.column(0).to_pylist():
+                    if len(slice_) < n_slice:
+                        slice_.append(text)
+                    elif size < n_bytes:
+                        train.append(text)
+                        size += len(text.encode())
+                    else:
+                        return slice_, train
+    raise ValueError(f"FineWeb sample-10BT has less than {n_bytes} bytes of English")
 
 
 def code(n_bytes):
