@@ -4,3 +4,5 @@ dist/
 .venv/
 # Track I replies name the private test items (openness policy, 2026-11-01)
 hyps/*.classics.jsonl
+# Built by release/make_ezhuthu.py; the file itself ships on Hugging Face
+release/ezhuthu-64k/tokenizer.json

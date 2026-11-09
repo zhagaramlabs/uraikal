@@ -1,0 +1,82 @@
+{
+ "source": "data/tamil_tokenizer/r4-morph-64k.json",
+ "source_sha256": "8f54a579d6fee51d469e0869c09c59621328a55e11d34d296c31692f9d5afc35",
+ "tokenizer_json_sha256": "ad7884f9ebd950cefd827cd3c2b0c29c719c134941a2fae79fe27bbc90f6bc7d",
+ "vocab_size": 64001,
+ "slices": {
+  "D4.web": {
+   "passages": 2000,
+   "same_ids": 2000,
+   "exact_round_trip": 2000,
+   "input_already_nfc": 2000
+  },
+  "D4.literature": {
+   "passages": 1000,
+   "same_ids": 1000,
+   "exact_round_trip": 1000,
+   "input_already_nfc": 1000
+  },
+  "verse": {
+   "passages": 1330,
+   "same_ids": 1330,
+   "exact_round_trip": 1330,
+   "input_already_nfc": 1330
+  },
+  "romanized": {
+   "passages": 2000,
+   "same_ids": 2000,
+   "exact_round_trip": 2000,
+   "input_already_nfc": 2000
+  },
+  "english": {
+   "passages": 2000,
+   "same_ids": 2000,
+   "exact_round_trip": 2000,
+   "input_already_nfc": 2000
+  },
+  "code": {
+   "passages": 27,
+   "same_ids": 27,
+   "exact_round_trip": 27,
+   "input_already_nfc": 25
+  },
+  "fresh.web": {
+   "passages": 2000,
+   "same_ids": 2000,
+   "exact_round_trip": 2000,
+   "input_already_nfc": 2000
+  }
+ },
+ "sample_tokens": [
+  "தமிழ்",
+  " எழுத்து",
+  ":",
+  " க்",
+  " கா",
+  " கி",
+  " கீ",
+  " கு",
+  " கூ",
+  " கெ",
+  " கே",
+  " கை",
+  " கொ",
+  " கோ",
+  " கௌ",
+  ",",
+  " ஸ்ரீ",
+  ",",
+  " க்ஷ",
+  ".",
+  " Tamil",
+  " and",
+  " English",
+  ",",
+  " ",
+  "2",
+  "0",
+  "2",
+  "6",
+  "."
+ ]
+}

@@ -1,0 +1,813 @@
+{
+ "slices": {
+  "D4.web": 2000,
+  "D4.literature": 1000,
+  "fresh.web": 2000
+ },
+ "results": [
+  {
+   "tokenizer": "openai/gpt-oss-20b",
+   "vocab_size": 200019,
+   "revision": "6cee5e81ee83917806bbde320786a8fb61efebee",
+   "D4.web": {
+    "tokens_per_word": 3.1894006586169046,
+    "bytes_per_token": 7.749086573805112,
+    "letter_cut_words": 0.6503071369767589,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.02228213177488081,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 3.4099575389226544,
+    "bytes_per_token": 7.249932856410382,
+    "letter_cut_words": 0.7053959685538633,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.020157230683546475,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 3.032375346260388,
+    "bytes_per_token": 8.077076791321725,
+    "letter_cut_words": 0.6307542738819727,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.019582838817201586,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "meta-llama/Llama-3.1-8B",
+   "vocab_size": 128256,
+   "revision": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+   "D4.web": {
+    "tokens_per_word": 12.185431394072447,
+    "bytes_per_token": 2.028236918571132,
+    "letter_cut_words": 0.987949736287397,
+    "pretokenizer_letter_cut_words": 0.987949736287397,
+    "byte_cut_words": 1.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 12.264070435434185,
+    "bytes_per_token": 2.015804078307579,
+    "letter_cut_words": 0.9918385707859392,
+    "pretokenizer_letter_cut_words": 0.9918385707859392,
+    "byte_cut_words": 1.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 12.0403640680649,
+    "bytes_per_token": 2.0342182672714126,
+    "letter_cut_words": 0.9903159011136082,
+    "pretokenizer_letter_cut_words": 0.9903159011136082,
+    "byte_cut_words": 1.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "google/gemma-3-4b-it",
+   "vocab_size": 262145,
+   "revision": "093f9f388b31de276ce2de164bdc2081324b9767",
+   "D4.web": {
+    "tokens_per_word": 2.4362854006586168,
+    "bytes_per_token": 10.144518296375328,
+    "letter_cut_words": 0.2543401756877788,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 9.046744528981247e-06,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 2.690741819998335,
+    "bytes_per_token": 9.187787180716926,
+    "letter_cut_words": 0.32296553349184925,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 2.278554115552038,
+    "bytes_per_token": 10.749241532023902,
+    "letter_cut_words": 0.23967829095224868,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "Qwen/Qwen3-8B",
+   "vocab_size": 151669,
+   "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+   "D4.web": {
+    "tokens_per_word": 9.990436882546652,
+    "bytes_per_token": 2.4738599635568064,
+    "letter_cut_words": 0.987949736287397,
+    "pretokenizer_letter_cut_words": 0.987949736287397,
+    "byte_cut_words": 0.9945719532826113,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 10.01536091915744,
+    "bytes_per_token": 2.4684046236527855,
+    "letter_cut_words": 0.9918385707859392,
+    "pretokenizer_letter_cut_words": 0.9918385707859392,
+    "byte_cut_words": 0.9948375211533106,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 9.867815096952908,
+    "bytes_per_token": 2.4820822331195775,
+    "letter_cut_words": 0.9903159011136082,
+    "pretokenizer_letter_cut_words": 0.9903159011136082,
+    "byte_cut_words": 0.9941289361379763,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "Qwen/Qwen3.5-0.8B",
+   "vocab_size": 248077,
+   "revision": "2fc06364715b967f1860aea9cf38778875588b17",
+   "D4.web": {
+    "tokens_per_word": 4.27598682766191,
+    "bytes_per_token": 5.779938717839188,
+    "letter_cut_words": 0.6447343423469065,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.032342111691107955,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 4.343622512696695,
+    "bytes_per_token": 5.691554256415171,
+    "letter_cut_words": 0.6568129726024463,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.02148533727481096,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 4.131690245350217,
+    "bytes_per_token": 5.9280166414749855,
+    "letter_cut_words": 0.6321557536425848,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.02858513673897124,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "LiquidAI/LFM3-Omni-2B",
+   "vocab_size": 125033,
+   "revision": "21d75123f86c1f7ffb4bef1ea202710c4e7ebe67",
+   "D4.web": {
+    "tokens_per_word": 5.198621295279912,
+    "bytes_per_token": 4.75413391712402,
+    "letter_cut_words": 0.987949736287397,
+    "pretokenizer_letter_cut_words": 0.987949736287397,
+    "byte_cut_words": 0.07486181097731981,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 5.240800099908418,
+    "bytes_per_token": 4.717211633550314,
+    "letter_cut_words": 0.9918385707859392,
+    "pretokenizer_letter_cut_words": 0.9918385707859392,
+    "byte_cut_words": 0.0704110704110704,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 5.085724178868223,
+    "bytes_per_token": 4.815976578837307,
+    "letter_cut_words": 0.9903159011136082,
+    "pretokenizer_letter_cut_words": 0.9903159011136082,
+    "byte_cut_words": 0.0678013181485316,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "deepseek-ai/DeepSeek-V3",
+   "vocab_size": 128815,
+   "revision": "e815299b0bcbac849fa540c768ef21845365c9eb",
+   "D4.web": {
+    "tokens_per_word": 4.963126234906696,
+    "bytes_per_token": 4.979712514331819,
+    "letter_cut_words": 0.8791626333263975,
+    "pretokenizer_letter_cut_words": 9.046744528981247e-06,
+    "byte_cut_words": 0.21796321593674517,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 4.939076679710266,
+    "bytes_per_token": 5.005381532535726,
+    "letter_cut_words": 0.8835764625238309,
+    "pretokenizer_letter_cut_words": 2.1421074052653e-05,
+    "byte_cut_words": 0.2093267356425251,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 4.84086861891571,
+    "bytes_per_token": 5.059573076647967,
+    "letter_cut_words": 0.8715057700563117,
+    "pretokenizer_letter_cut_words": 1.262594378929825e-05,
+    "byte_cut_words": 0.20884573621878236,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "mistralai/Mistral-Nemo-Base-2407",
+   "vocab_size": 131072,
+   "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+   "D4.web": {
+    "tokens_per_word": 3.773760702524698,
+    "bytes_per_token": 6.54915448285812,
+    "letter_cut_words": 0.7738494802645268,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.05949139202258068,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 3.8886437432353675,
+    "bytes_per_token": 6.357477010694443,
+    "letter_cut_words": 0.7948503737977423,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.05462373883426515,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 3.623948852394143,
+    "bytes_per_token": 6.758574563124687,
+    "letter_cut_words": 0.7596651599707078,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.05440519178808616,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "CohereLabs/aya-expanse-8b",
+   "vocab_size": 255029,
+   "read_from": "adamo1139/aya-expanse-8b-ungated",
+   "tokenizer_json_sha256": "c69a7ea6c0927dfac8c349186ebcf0466a4723c21cbdb2e850cf559f0bee92b8",
+   "revision": "871465ab4030a036a24433b5d100d640f5142999",
+   "D4.web": {
+    "tokens_per_word": 10.137115257958287,
+    "bytes_per_token": 2.438064596609042,
+    "letter_cut_words": 0.987949736287397,
+    "pretokenizer_letter_cut_words": 0.987949736287397,
+    "byte_cut_words": 0.9941377095452202,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 10.13606277578886,
+    "bytes_per_token": 2.439010466613413,
+    "letter_cut_words": 0.9918385707859392,
+    "pretokenizer_letter_cut_words": 0.9918385707859392,
+    "byte_cut_words": 0.9955658376711009,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 10.01388751483973,
+    "bytes_per_token": 2.4458761390678507,
+    "letter_cut_words": 0.9903159011136082,
+    "pretokenizer_letter_cut_words": 0.9903159011136082,
+    "byte_cut_words": 0.9940910583066084,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "bigscience/bloom-560m",
+   "vocab_size": 250680,
+   "revision": "ac2ae5fab2ce3f9f40dc79b5ca9f637430d24971",
+   "D4.web": {
+    "tokens_per_word": 2.154212952799122,
+    "bytes_per_token": 11.472840598260984,
+    "letter_cut_words": 0.41738060558907875,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0009137211974271058,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 2.414828074265257,
+    "bytes_per_token": 10.237566584495509,
+    "letter_cut_words": 0.5157337788916736,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.000963948332369385,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 2.0155198852394145,
+    "bytes_per_token": 12.152064939288147,
+    "letter_cut_words": 0.3926163480720184,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.000909067952829474,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "sarvamai/sarvam-1",
+   "vocab_size": 68096,
+   "revision": "e9607337286ddf496d4a2562b194e489dcf3feea",
+   "D4.web": {
+    "tokens_per_word": 2.462981339187706,
+    "bytes_per_token": 10.034563164950512,
+    "letter_cut_words": 0.26233749785139815,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.003130173607027511,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 2.7722504370993257,
+    "bytes_per_token": 8.917651475335987,
+    "letter_cut_words": 0.3416447100657627,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.004327056958635906,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 2.2888553620894343,
+    "bytes_per_token": 10.700863382427627,
+    "letter_cut_words": 0.2495391530516906,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.004229691169414913,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "sarvamai/sarvam-30b",
+   "vocab_size": 262144,
+   "revision": "071ae95e933605ca1104a6b4524a36a98488efa4",
+   "D4.web": {
+    "tokens_per_word": 2.436311745334797,
+    "bytes_per_token": 10.144408600212662,
+    "letter_cut_words": 0.2543401756877788,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 1.8093489057962494e-05,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 2.690741819998335,
+    "bytes_per_token": 9.187787180716926,
+    "letter_cut_words": 0.32296553349184925,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 2.278529382667194,
+    "bytes_per_token": 10.749358212438468,
+    "letter_cut_words": 0.23967829095224868,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "murai-labs/agaram-2.5b",
+   "vocab_size": 64000,
+   "revision": "1c1e4efc7fd93afd8f1640e60c8ff91e40b0c070",
+   "D4.web": {
+    "tokens_per_word": 1.6769703622392975,
+    "bytes_per_token": 14.737852486057655,
+    "letter_cut_words": 0.20252042302577417,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 9.046744528981246e-05,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 1.9260261427025227,
+    "bytes_per_token": 12.835736053774829,
+    "letter_cut_words": 0.33194096351991087,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.000257052888631836,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 1.5323753462603877,
+    "bytes_per_token": 15.983504688735737,
+    "letter_cut_words": 0.17053862276205145,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 8.838160652508776e-05,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "ai4bharat/IndicBERTv2-MLM-only",
+   "vocab_size": 250000,
+   "revision": "8598f13fe52443bc3fc054fcd665944560145b5c",
+   "D4.web": {
+    "tokens_per_word": 1.7628979143798025,
+    "bytes_per_token": 14.019496886674968,
+    "letter_cut_words": 0.11778861376733582,
+    "pretokenizer_letter_cut_words": 9.046744528981247e-06,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 0.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 2.0834235284322706,
+    "bytes_per_token": 11.86602861253197,
+    "letter_cut_words": 0.2055566266092582,
+    "pretokenizer_letter_cut_words": 2.1421074052653e-05,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 0.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 1.6010833003561535,
+    "bytes_per_token": 15.297597899127211,
+    "letter_cut_words": 0.10017423802429232,
+    "pretokenizer_letter_cut_words": 1.262594378929825e-05,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 0.0005,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "google/muril-base-cased",
+   "vocab_size": 197258,
+   "revision": "afd9f36c7923d54e97903922ff1b260d091d202f",
+   "D4.web": {
+    "tokens_per_word": 1.8868847420417123,
+    "bytes_per_token": 13.098278485961213,
+    "letter_cut_words": 0.09091073577173255,
+    "pretokenizer_letter_cut_words": 9.046744528981247e-06,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.046539984827964946,
+    "round_trip": 0.9945,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 2.2139080842560985,
+    "bytes_per_token": 11.166661965872233,
+    "letter_cut_words": 0.1418289313026155,
+    "pretokenizer_letter_cut_words": 2.1421074052653e-05,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.1316222441592629,
+    "round_trip": 0.99,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 1.7223857340720221,
+    "bytes_per_token": 14.220234206161733,
+    "letter_cut_words": 0.07898790434584985,
+    "pretokenizer_letter_cut_words": 1.262594378929825e-05,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.05743866627416911,
+    "round_trip": 0.997,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "FacebookAI/xlm-roberta-base",
+   "vocab_size": 250002,
+   "revision": "e73636d4f797dec63c3081bb6ed5c7b0bb3f2089",
+   "D4.web": {
+    "tokens_per_word": 2.484847420417124,
+    "bytes_per_token": 9.946261335444335,
+    "letter_cut_words": 0.16225336312727864,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.04555940544794956,
+    "unk_per_1k": 0.0,
+    "round_trip": 0.998,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 2.785405045375073,
+    "bytes_per_token": 8.875536159973697,
+    "letter_cut_words": 0.2064134695713643,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.053809738020264335,
+    "unk_per_1k": 0.014945225747634919,
+    "round_trip": 0.996,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 2.3056242580134545,
+    "bytes_per_token": 10.623035582111326,
+    "letter_cut_words": 0.15490770435090023,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.03691825963990808,
+    "unk_per_1k": 0.005363598330848199,
+    "round_trip": 0.9835,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "google/mt5-base",
+   "vocab_size": 250100,
+   "revision": "2eb15465c5dd7f72a8f7984306ad05ebc3dd1e1f",
+   "D4.web": {
+    "tokens_per_word": 2.5837980241492864,
+    "bytes_per_token": 9.565353634911464,
+    "letter_cut_words": 0.2776717298280214,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.1327609759627998,
+    "unk_per_1k": 0.0,
+    "round_trip": 0.998,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 2.7248771959037548,
+    "bytes_per_token": 9.072688940831386,
+    "letter_cut_words": 0.2946682946682947,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.1189512242143821,
+    "unk_per_1k": 0.01527720488259468,
+    "round_trip": 0.996,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 2.447776513652552,
+    "bytes_per_token": 10.006113056174438,
+    "letter_cut_words": 0.27391985050882556,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.12726951339612635,
+    "unk_per_1k": 0.0,
+    "round_trip": 0.984,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "theschoolofai/BrahmicTokenizer-131K",
+   "vocab_size": 131072,
+   "revision": "93df154cbc9dbf038a222c010d9b43906a8a72c3",
+   "D4.web": {
+    "tokens_per_word": 3.1646542261251374,
+    "bytes_per_token": 7.809681581685744,
+    "letter_cut_words": 0.6457837647122683,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.01689931878013697,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 3.3789026725501623,
+    "bytes_per_token": 7.31656564163217,
+    "letter_cut_words": 0.69899106741212,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.01370948739369792,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 3.011340027700831,
+    "bytes_per_token": 8.133498145859086,
+    "letter_cut_words": 0.626448827049822,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.01564354435494053,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "krutrim-ai-labs/Krutrim-1-instruct",
+   "vocab_size": 70212,
+   "read_from": "krutrim-ai-labs/Krutrim-1-instruct",
+   "tokenizer_json_sha256": "8507dfcc8d7fd39d93b03819a884fa6510175d9e4795e8084ce8cee9b4d890f6",
+   "revision": "ef1e55353589e1b53f3c79b9526666ac8901df11",
+   "D4.web": {
+    "tokens_per_word": 6.679964873765093,
+    "bytes_per_token": 3.6998610455631202,
+    "letter_cut_words": 0.987949736287397,
+    "pretokenizer_letter_cut_words": 0.987949736287397,
+    "byte_cut_words": 3.618697811592499e-05,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 6.706081924902173,
+    "bytes_per_token": 3.6864988345277743,
+    "letter_cut_words": 0.9918385707859392,
+    "pretokenizer_letter_cut_words": 0.9918385707859392,
+    "byte_cut_words": 6.4263222157959e-05,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 6.586787692916502,
+    "bytes_per_token": 3.718463335048082,
+    "letter_cut_words": 0.9903159011136082,
+    "pretokenizer_letter_cut_words": 0.9903159011136082,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "ezhuthu-64k",
+   "vocab_size": 64001,
+   "read_from": "release/ezhuthu-64k (r4-morph-64k)",
+   "D4.web": {
+    "tokens_per_word": 1.7829023051591657,
+    "bytes_per_token": 13.86219634730185,
+    "letter_cut_words": 3.618697811592499e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 1.9681125634834735,
+    "bytes_per_token": 12.561254706205846,
+    "letter_cut_words": 4.2842148105306e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 1.6555574792243768,
+    "bytes_per_token": 14.794248366013072,
+    "letter_cut_words": 2.52518875785965e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  {
+   "tokenizer": "r2-grapheme-64k",
+   "vocab_size": 64000,
+   "read_from": "data/tamil_tokenizer/r2-grapheme-64k.json",
+   "D4.web": {
+    "tokens_per_word": 1.677198682766191,
+    "bytes_per_token": 14.735846191705368,
+    "letter_cut_words": 3.618697811592499e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "D4.literature": {
+    "tokens_per_word": 1.9135375905420031,
+    "bytes_per_token": 12.919507472752192,
+    "letter_cut_words": 4.2842148105306e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "fresh.web": {
+    "tokens_per_word": 1.5438019390581716,
+    "bytes_per_token": 15.865201300885948,
+    "letter_cut_words": 2.52518875785965e-05,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.0,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  }
+ ],
+ "skipped": {},
+ "differs_from_d4_json": []
+}
