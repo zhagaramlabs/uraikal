@@ -1,8 +1,8 @@
-# Before publishing Ezhuthu
+# Publishing Ezhuthu
 
-Nothing here has been uploaded. Every publish needs Jay's OK: Hugging Face, GitHub, the website and social posts.
-`release/ezhuthu-64k/` is the folder that would go to `zhagaramlabs/ezhuthu-64k`. The org exists on Hugging Face,
-and the repo doesn't yet.
+**Ezhuthu 64k is public:** [zhagaramlabs/ezhuthu-64k](https://huggingface.co/zhagaramlabs/ezhuthu-64k), uploaded
+on 2026-11-09 after Jay's "Yes, upload" (commit `78616b5`). Any further publish still needs Jay's OK: GitHub
+releases, the website and social posts.
 
 ## 64k: decisions for Jay
 
@@ -11,20 +11,20 @@ and the repo doesn't yet.
 - [x] **The licence:** Apache 2.0, as the card says. Jay settled it on 2026-11-09: "regarding the license,
   everything is good to go. Just use it." The tokenizer files hold no passages of the training text, only a
   vocabulary and merges, and the card credits every source with its licence (TamilMorph is MIT).
-- [ ] **`<|endoftext|>` at id 64,000,** as bos and eos. This is the only change from the tested `r4-morph-64k`.
-  The tokenizer doesn't add it by itself. To add it on every encode, as our models were trained, set a
-  post-processor.
+- [x] **`<|endoftext|>` at id 64,000,** as bos and eos. This is the only change from the tested `r4-morph-64k`.
+  Uploaded as is: the tokenizer doesn't add it by itself, and the card says to prepend it when training.
 - [x] **Which tokenizer:** Jay chose the stem–suffix variant on 2026-11-08. So Ezhuthu is now `r4-morph-64k`, not
   `r2-grapheme-64k`. It's about 0.2% better in bits per byte on Tamil prose at 85M (3 seeds) and 350M (2 seeds), for
   6 to 7% more tokens of Tamil web text. The folder and the card were rebuilt for it.
-- [ ] **Read the card:** [ezhuthu-64k/README.md](ezhuthu-64k/README.md).
+- [x] **The card** went up with the upload: [ezhuthu-64k/README.md](ezhuthu-64k/README.md).
 
-## 64k: to do before the upload
+## 64k: before and after the upload
 
 - [x] Fill in the card's "At 350M" section: done on 2026-11-08, when all 6 c1 runs were in.
-- [ ] Re-run `release/make_ezhuthu.py`. The upload must match `tokenizer.json` sha256 `ad7884f9…6bc7d`.
-- [ ] Re-check whether Krutrim's IndicSuperTokenizer (MUTANT-Indic, arXiv 2511.03237) has been released. On
-  2026-11-08 it wasn't on Hugging Face or GitHub, and Krutrim-1's tokenizer stands in for it.
+- [x] Re-run `release/make_ezhuthu.py`: done on 2026-11-09. The upload matches `tokenizer.json` sha256 `ad7884f9…6bc7d`.
+- [x] Re-check whether Krutrim's IndicSuperTokenizer (MUTANT-Indic, arXiv 2511.03237) has been released. On
+  2026-11-09 it still wasn't on Hugging Face (krutrim-ai-labs has 9 repos, none a tokenizer). Krutrim-1's tokenizer
+  stands in for it. Re-check before any update of the card.
 - [ ] Optional: accept Aya Expanse's licence on Hugging Face, then re-score from the gated repo. The copy we
   scored has the same sha256, so the numbers won't change.
 - [ ] The website leaderboard (`results/d4.json`) doesn't have the 4 new tokenizers yet. Updating it is a deploy,
