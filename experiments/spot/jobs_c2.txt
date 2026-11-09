@@ -1,0 +1,2 @@
+data/tamil_tokenizer/r4-morph-128k.json 0 --steps 8339 --data bpb-c --size medium --lr 3e-4 --micro 8 --name r4-morph-128k-350m
+data/tamil_tokenizer/r4-morph-128k.json 1 --steps 8339 --data bpb-c --size medium --lr 3e-4 --micro 8 --name r4-morph-128k-350m

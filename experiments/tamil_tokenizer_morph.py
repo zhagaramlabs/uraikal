@@ -14,12 +14,14 @@ TamilMorph's words is held out of training and scores Morph-F1: how often token 
 
     nice -n 10 uv run --extra tokenizers --extra prep --with huggingface_hub python experiments/tamil_tokenizer_morph.py
 
-Writes results/experiments/tamil_tokenizer_morph.json and data/tamil_tokenizer/r4-morph-64k.json.
+Writes results/experiments/tamil_tokenizer_morph.json and data/tamil_tokenizer/r4-morph-64k.json. With an argument,
+`... tamil_tokenizer_morph.py 128000` builds r4-morph-128k instead (results in tamil_tokenizer_morph_128k.json).
 """
 import csv
 import hashlib
 import itertools
 import json
+import sys
 import time
 import unicodedata
 
@@ -33,7 +35,9 @@ import tamil_tokenizer_r2 as r2
 from uraikal.classics import kural_text
 from uraikal.tokenizer_eval import measure
 
-SIZE = 64_000
+SIZE = int(sys.argv[1]) if len(sys.argv) > 1 else 64_000  # 128000 builds r4-morph-128k
+NAME = f"r4-morph-{SIZE // 1000}k"
+RESULTS = "tamil_tokenizer_morph.json" if SIZE == 64_000 else f"tamil_tokenizer_morph_{SIZE // 1000}k.json"
 LETTER = regex.compile(r"\p{L}")
 
 
@@ -118,14 +122,14 @@ def main():
         print(f"{name}: morph F1 {row['morph_f1']['f1']:.3f} (P {row['morph_f1']['precision']:.3f} R {row['morph_f1']['recall']:.3f}) "
               f"web {row['D4.web']['tokens_per_word']:.3f} lit {row['D4.literature']['tokens_per_word']:.3f} "
               + " ".join(f"{s} {row[s]['tokens_per_word']:.2f}" for s in other) + f", {time.time() - start:.0f}s", flush=True)
-        json.dump(out, open(r1.ROOT / "results/experiments/tamil_tokenizer_morph.json", "w"), indent=1, ensure_ascii=False)
+        json.dump(out, open(r1.ROOT / "results/experiments" / RESULTS, "w"), indent=1, ensure_ascii=False)
 
     fast = lambda t: PreTrainedTokenizerFast(tokenizer_object=t)
-    for name in ("r2-grapheme-64k", "r3-bpe-64k"):
+    for name in ("r2-grapheme-64k", "r3-bpe-64k") if SIZE == 64_000 else ("r4-morph-64k", "r2-bpe-128k"):
         score(name, fast(Tokenizer.from_file(str(r1.OUT / f"{name}.json"))), "reference")
     t = r2.grapheme_bpe(mix, SIZE, r1.pattern(), cutter(train))
-    t.save(str(r1.OUT / "r4-morph-64k.json"))
-    score("r4-morph-64k", fast(t), "round 4, TamilMorph cuts")
+    t.save(str(r1.OUT / f"{NAME}.json"))
+    score(NAME, fast(t), "round 4, TamilMorph cuts")
 
 
 if __name__ == "__main__":

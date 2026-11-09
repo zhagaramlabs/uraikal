@@ -30,17 +30,15 @@ releases, the website and social posts.
 - [x] The website: on Jay's "Yes, update site" (2026-11-09), zhagaramlabs.com got an Ezhuthu model page, a home
   page entry, and a leaderboard of 20 tokenizers read from `results/experiments/tokenizer_d4_fresh.json`.
 
-## 128k: what's open
+## 128k: tested, not released
 
-- **No whole-letter 128k without superwords exists.** The only whole-letter 128k is `r3-grapheme-super-128k`,
-  and superwords are out, because they added nothing at equal compute.
-  - To build one to match the 64k release: `experiments/tamil_tokenizer_morph.py` at `SIZE = 128_000`, on round 2's
-    text with the stem cuts. That's one CPU run on the Mac, about 35 minutes for the 64k.
-  - Then score its D4 and fresh.web tokens.
-- **No 128k has 3 seeds of bits per byte.** `r2-bpe-128k` has 1 seed: 0.4132 on fresh.web at 85M, against 0.4095
-  for Ezhuthu 64k (3 seeds), with 28% more compute.
-  - A fair test needs the whole-letter 128k and `r2-bpe-128k` at 3 seeds each, at equal steps: about 6 runs ×
-    45 minutes on one H100, roughly $4 at the cap. That's a purchase, so it needs an OK.
-- **The case for 128k is cost, not quality.** `r2-bpe-128k` spends 13% fewer tokens than Ezhuthu 64k on D4.web
-  (1.556 against 1.783 tokens per word), and 7% fewer than `r2-grapheme-64k` (1.677). At 85M, the bigger output layer didn't buy better bits per byte. Whether it pays
-  at 350M or 1B is still open.
+- **Built:** `r4-morph-128k`, the same recipe as the 64k, via `experiments/tamil_tokenizer_morph.py 128000`
+  (`results/experiments/tamil_tokenizer_morph_128k.json`). It spends 6.3% fewer tokens on fresh.web (1.552 against 1.656 tokens per word).
+- **Tested (phase c2, 2026-11-09):** 350M, 2 seeds, equal compute to the 64k runs (`experiments/spot/jobs_c2.txt`).
+  It's worse on every held-out set, with both seeds above both 64k seeds.
+  - fresh.web 0.3627 against 0.3593 (+0.9%).
+  - Literature 0.5095 against 0.5030 (+1.3%).
+  - On Tamil it's behind even plain BPE at 64k.
+  - Results: `results/experiments/bpb-c/r4-morph-128k-350m{,-s1}.json`.
+- **So there's no 128k release.** At 350M its output layer is 30% of the model, and it reads about 9% less text at
+  equal compute. It might pay at 1B and up; that's untested.

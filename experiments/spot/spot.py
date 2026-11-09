@@ -107,7 +107,7 @@ def up(args):
         sys.exit("no R2_ZD_ACCESS_KEY / R2_ZD_SECRET_ACCESS_KEY in .env: machines only get a key limited to zhagaram-data")
     policy_id = pricing_policy(args.gpu)  # new machines never follow the open spot price: Nebius stops them above the cap
     key = (Path.home() / ".ssh/zhagaram_nebius.pub").read_text().strip()
-    worker = base64.b64encode((HERE / "worker.sh").read_bytes()).decode()
+    script = base64.b64encode((HERE / "worker.sh").read_bytes()).decode()  # not `worker`: that names the helper below
     cloud = f"""#cloud-config
 users:
   - name: zl
@@ -118,7 +118,7 @@ write_files:
   - path: /root/worker.sh
     permissions: "0755"
     encoding: b64
-    content: {worker}
+    content: {script}
   - path: /etc/systemd/system/spot-worker.service
     content: |
       [Unit]
