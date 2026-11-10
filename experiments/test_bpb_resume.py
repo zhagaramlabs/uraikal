@@ -36,7 +36,7 @@ with tempfile.TemporaryDirectory() as tmp:
     tok.save(str(tmp / "tok.json"))
     run = lambda name, stop_at=None, steps=None: tb.train(argparse.Namespace(
         tokenizer=str(tmp / "tok.json"), name=name, seed=0, size="tiny", batch=4, micro=2, lr=1e-3, log_every=1,
-        no_compile=True, max_steps=8, steps=steps, save_minutes=30, stop_at=stop_at))
+        no_compile=True, max_steps=8, steps=steps, save_minutes=30, stop_at=stop_at, base=None))
     run("whole")
     run("broken", stop_at=3)
     assert (tb.RESULTS / "broken.ckpt").exists() and not (tb.RESULTS / "broken.json").exists()

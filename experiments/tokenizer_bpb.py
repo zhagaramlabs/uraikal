@@ -19,6 +19,9 @@ that saving is part of what it offers, and each result records its token count a
     uv run ... python experiments/tokenizer_bpb.py tasks --data bpb-c   # first: prep drops training text near these
     uv run ... python experiments/tokenizer_bpb.py prep --data bpb-c --shards 20 --eval-from bpb
     uv run ... python experiments/tokenizer_bpb.py train data/tamil_tokenizer/r2-grapheme-64k.json --data bpb-c --size medium --lr 3e-4
+    # phase D: carry on training a pretrained model, with its own tokenizer (the control) or one that extends it
+    uv run ... python experiments/tokenizer_bpb.py score Qwen/Qwen3.5-0.8B-Base --base Qwen/Qwen3.5-0.8B-Base --data bpb-c --name qwen3.5-0.8b-base-stock
+    uv run ... python experiments/tokenizer_bpb.py train data/tamil_tokenizer/qwen3.5+ta-32k.json --base Qwen/Qwen3.5-0.8B-Base --init pieces --data bpb-c --lr 1e-4 --steps 50 --name qd-pieces-50
 
 Text: Sangraha verified Tamil data-0 to data-3 (D4.web is data-52), Tamil Wikipedia, Project Madurai without
 the D4.literature lines and the Thirukkural books, 15% English (FineWeb, after the 2,000 test documents),
@@ -32,6 +35,10 @@ With data/<data>/tasks.json, each result also scores Belebele, XCOPA and Global 
 Spot GPUs: a run checkpoints every 30 minutes to results/experiments/bpb/<name>.ckpt, and after a preemption the
 same command carries on from there. The result matches an unbroken run's: bit for bit on the CPU, while GPU kernels
 add float noise of their own (experiments/test_bpb_resume.py).
+Phase D (--base): the documents are separated by the base model's own <|endoftext|>, and test passages are scored in
+4,096-token windows, so 99.9% of fresh.web passages fit in one window under either tokenizer. On a GPU, Qwen3.5's
+linear-attention layers need flash-linear-attention and causal-conv1d installed; without them it falls back to slow
+reference code.
 """
 import argparse
 import csv
@@ -226,6 +233,31 @@ def model_for(vocab, size):
     return LlamaForCausalLM(cfg), ctx
 
 
+def base_model(name, backend, n, init):
+    """A pretrained model, its vocabulary grown to n when the tokenizer extends the model's own. A new token starts as
+    the mean embedding of the base tokens it's made of ("pieces"), or of all base tokens ("mean")."""
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    model = AutoModelForCausalLM.from_pretrained(name, dtype=torch.float32)
+    model.config.use_cache = False
+    old = AutoTokenizer.from_pretrained(name).backend_tokenizer
+    k = old.get_vocab_size(with_added_tokens=True)
+    if n > k:
+        assert all(backend.id_to_token(i) == old.id_to_token(i) for i in range(k)), "the tokenizer must keep the base ids"
+        model.resize_token_embeddings(n, mean_resizing=False)  # exactly n: no untrained padding rows to take probability
+        emb = model.get_input_embeddings().weight
+        assert model.get_output_embeddings().weight.data_ptr() == emb.data_ptr(), "expected tied embeddings"
+        with torch.no_grad():
+            mean = emb[:k].mean(0)
+            for i in range(k, n):
+                token = backend.id_to_token(i)
+                pieces = old.model.tokenize(token) if init == "pieces" else []
+                assert not pieces or "".join(p.value for p in pieces) == token
+                emb[i] = emb[[p.id for p in pieces]].mean(0) if pieces else mean
+    return model
+
+
 def bits_per_byte(model, backend, bos, texts, ctx, device):
     """Total loss in bits over the UTF-8 bytes of the texts. Each text starts from our BOS; long ones are
     cut into windows of ctx tokens, and every token after the BOS is predicted exactly once."""
@@ -264,17 +296,55 @@ def accuracy(model, backend, bos, items, ctx, device):
     return right / len(items)
 
 
+def evaluate(model, backend, bos, ctx, device):
+    """Bits and tokens per byte on each held-out slice, and task accuracy when data/<data>/tasks.json exists."""
+    held = json.load(open(BPB / "eval.json", encoding="utf-8"))
+    out = {"bits_per_byte": {k: bits_per_byte(model, backend, bos, v, ctx, device) for k, v in held.items()},
+           "tokens_per_byte": {k: sum(map(len, encode(backend, v))) / sum(len(t.encode()) for t in v) for k, v in held.items()}}
+    if (BPB / "tasks.json").exists():
+        out["tasks"] = {k: {"accuracy": accuracy(model, backend, bos, v, ctx, device), "items": len(v)}
+                        for k, v in json.load(open(BPB / "tasks.json", encoding="utf-8")).items()}
+    return out
+
+
+def score(args):
+    """Phase D's starting points, untrained: the base model as it is, or with an extended tokenizer's tokens just added."""
+    import torch
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
+    backend, n = tokenizer(args.tokenizer)
+    model = base_model(args.base, backend, n, args.init).to(device)
+    embed = model.get_input_embeddings().weight.numel()
+    result = {"tokenizer": args.tokenizer, "name": args.name, "base": args.name, "seed": 0, "vocab_size": n,
+              "base_model": args.base, "init": args.init,
+              "parameters": {"non_embedding": sum(p.numel() for p in model.parameters()) - embed, "embedding": embed},
+              "training": {"tokens": 0, "steps": 0, "device": str(device)},
+              **evaluate(model, backend, backend.token_to_id("<|endoftext|>"), 4096, device)}
+    RESULTS.mkdir(parents=True, exist_ok=True)
+    with open(RESULTS / f"{args.name}.json.tmp", "w") as f:
+        json.dump(result, f, indent=1)
+    (RESULTS / f"{args.name}.json.tmp").replace(RESULTS / f"{args.name}.json")
+    print(args.name, {k: round(v, 4) for k, v in result["bits_per_byte"].items()}, result.get("tasks"), flush=True)
+
+
 def train(args):
     import torch
 
     device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
-    base = args.name or (Path(args.tokenizer).stem if args.tokenizer.endswith(".json") else args.tokenizer.split("/")[-1])
+    stem = Path(args.tokenizer).stem if args.tokenizer.endswith(".json") else args.tokenizer.split("/")[-1]
+    base = args.name or stem
     name = f"{base}-s{args.seed}" if args.seed else base
     backend, n = tokenizer(args.tokenizer)
-    bos = n  # one id past the tokenizer's own, so no tokenizer's special tokens matter
-    stream = tokens(backend, bos, base)
     torch.manual_seed(args.seed)
-    model, ctx = model_for(-(-(n + 1) // 64) * 64, args.size)
+    if args.base:  # phase D: one token cache per tokenizer, not per run, so trial runs share it
+        bos = backend.token_to_id("<|endoftext|>")
+        stream = tokens(backend, bos, f"{stem}-eot")
+        model, ctx, test_ctx = base_model(args.base, backend, n, args.init), args.ctx, 4096
+    else:
+        bos = n  # one id past the tokenizer's own, so no tokenizer's special tokens matter
+        stream = tokens(backend, bos, base)
+        model, ctx = model_for(-(-(n + 1) // 64) * 64, args.size)
+        test_ctx = ctx
     model.to(device)
     embed = model.get_input_embeddings().weight.numel()
     total = sum(p.numel() for p in model.parameters())
@@ -285,10 +355,12 @@ def train(args):
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, betas=(0.9, 0.95), weight_decay=0.1,
                             fused=device.type == "cuda")
     warm = max(1, steps // 100)
+    warm = max(warm, 25) if args.base else warm  # full-size first steps wrecked Qwen in a smoke test (loss 2.6 to 14.7)
     sched = torch.optim.lr_scheduler.LambdaLR(opt, lambda s: min((s + 1) / warm, 0.1 + 0.45 * (1 + math.cos(math.pi * s / steps))))
     RESULTS.mkdir(parents=True, exist_ok=True)
     ckpt = RESULTS / f"{name}.ckpt"
     setup = {"vocab": n, "size": args.size, "steps": steps, "batch": args.batch, "lr": args.lr}
+    setup |= {"base": args.base, "init": args.init, "ctx": ctx} if args.base else {}
     first, log, spent = 0, [], 0.0
     if ckpt.exists():  # a preempted run carries on from its last checkpoint
         state = torch.load(ckpt, map_location=device)
@@ -328,19 +400,14 @@ def train(args):
             saved = time.time()
             if done == args.stop_at:
                 return
-    held = json.load(open(BPB / "eval.json", encoding="utf-8"))
     result = {"tokenizer": args.tokenizer, "name": name, "base": base, "seed": args.seed, "vocab_size": n, "size": args.size,
               "parameters": {"non_embedding": total - embed, "embedding": embed},
               "training": {"tokens": steps * args.batch * ctx, "stream_tokens": len(stream), "steps": steps,
                            "batch": args.batch, "context": ctx, "lr": args.lr,
                            "flops": 6 * total * steps * args.batch * ctx, "seconds": round(spent + time.time() - start),
                            "device": str(device)},
-              "bits_per_byte": {k: bits_per_byte(model, backend, bos, v, ctx, device) for k, v in held.items()},
-              "tokens_per_byte": {k: sum(map(len, encode(backend, v))) / sum(len(t.encode()) for t in v) for k, v in held.items()},
-              "log": log}
-    if (BPB / "tasks.json").exists():
-        result["tasks"] = {k: {"accuracy": accuracy(model, backend, bos, v, ctx, device), "items": len(v)}
-                           for k, v in json.load(open(BPB / "tasks.json", encoding="utf-8")).items()}
+              **evaluate(model, backend, bos, test_ctx, device), "log": log}
+    result |= {"base_model": args.base, "init": args.init} if args.base else {}
     (BPB / "models").mkdir(exist_ok=True)  # before the result: a result on disk means its weights are too
     torch.save({k: v.to(torch.bfloat16) for k, v in model.state_dict().items()}, BPB / "models" / f"{name}.pt")
     with open(RESULTS / f"{name}.json.tmp", "w") as f:
@@ -396,12 +463,20 @@ def main():
     a.add_argument("--seed", type=int, default=0, help="model initialization and batch order")
     a.add_argument("--save-minutes", type=float, default=30, help="checkpoint this often, for spot GPUs")
     a.add_argument("--stop-at", type=int, help="quit after the checkpoint at this step, as a preempted pod would: tests resume")
+    a.add_argument("--base", help="phase D: a pretrained Hugging Face model to carry on training, instead of a new one")
+    a.add_argument("--ctx", type=int, default=2048, help="with --base: training context in tokens")
+    a.add_argument("--init", choices=("pieces", "mean"), default="pieces", help="with --base: how added tokens start")
+    a = sub.add_parser("score", parents=[data])
+    a.add_argument("tokenizer")
+    a.add_argument("--base", required=True)
+    a.add_argument("--init", choices=("pieces", "mean"), default="pieces")
+    a.add_argument("--name", required=True)
     sub.add_parser("fresh", parents=[data])
     sub.add_parser("report", parents=[data])
     args = p.parse_args()
     global BPB, RESULTS
     BPB, RESULTS = ROOT / "data" / args.data, ROOT / "results/experiments" / args.data
-    {"prep": prep, "fresh": fresh, "tasks": tasks, "train": train, "report": report}[args.cmd](args)
+    {"prep": prep, "fresh": fresh, "tasks": tasks, "train": train, "score": score, "report": report}[args.cmd](args)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,50 @@
+{
+ "tokenizer": "Qwen/Qwen3.5-0.8B-Base",
+ "name": "qwen3.5-0.8b-base-stock",
+ "base": "qwen3.5-0.8b-base-stock",
+ "seed": 0,
+ "vocab_size": 248077,
+ "base_model": "Qwen/Qwen3.5-0.8B-Base",
+ "init": "pieces",
+ "parameters": {
+  "non_embedding": 498113344,
+  "embedding": 254279680
+ },
+ "training": {
+  "tokens": 0,
+  "steps": 0,
+  "device": "mps"
+ },
+ "bits_per_byte": {
+  "D4.web": 0.6043678526218862,
+  "D4.literature": 0.7349910512712966,
+  "verse": 1.2212742854697585,
+  "romanized": 3.743535090839378,
+  "english": 0.9593813307022939,
+  "code": 0.8307708620466829,
+  "fresh.web": 0.6080231241005015
+ },
+ "tokens_per_byte": {
+  "D4.web": 0.17301221497619043,
+  "D4.literature": 0.17569893124937908,
+  "verse": 0.18845034335715935,
+  "romanized": 0.374541139827209,
+  "english": 0.2245685442507275,
+  "code": 0.2901019667370644,
+  "fresh.web": 0.1686904846055196
+ },
+ "tasks": {
+  "belebele": {
+   "accuracy": 0.3522222222222222,
+   "items": 900
+  },
+  "xcopa": {
+   "accuracy": 0.47833333333333333,
+   "items": 600
+  },
+  "global_piqa": {
+   "accuracy": 0.3694581280788177,
+   "items": 203
+  }
+ }
+}
