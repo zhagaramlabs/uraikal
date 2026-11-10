@@ -17,6 +17,7 @@ if [ ! -f ready ]; then
   r2 cp $S3/code.tgz . && tar xzf code.tgz -C uraikal || exit 1
   for d in bpb bpb-c tamil_tokenizer hf_tokenizers; do r2 sync $S3/$d uraikal/data/$d || exit 1; done
   r2 cp $S3/SHA256SUMS uraikal/data/ && (cd uraikal/data && sha256sum -c --quiet SHA256SUMS) || exit 1
+  (cd uraikal/data && for s in bpb*/tokens/SHA256SUMS; do [ ! -f "$s" ] || sha256sum -c --quiet "$s" || exit 1; done) || exit 1  # prebuilt caches (phase D)
   touch ready
 fi
 # torch falls back to the CPU without a word if the driver is too old for its CUDA: never pay for an idle GPU
@@ -31,8 +32,9 @@ while read -r tok seed extra; do  # extra: per-job flags, e.g. --micro 4 for 250
   data=bpb; [[ " $extra " =~ \ --data\ ([^ ]+) ]] && data=${BASH_REMATCH[1]}
   name=$base; [ "$seed" = 0 ] || name=$base-s$seed
   result=uraikal/results/experiments/$data/$name.json weights=uraikal/data/$data/models/$name.pt
+  kernels=; [[ " $extra " =~ \ --base\  ]] && kernels="--with flash-linear-attention"  # Qwen3.5's linear attention, else slow reference code
   if [ ! -f "$result" ]; then
-    (cd uraikal && uv run --extra tokenizers --extra prep --with torch python experiments/tokenizer_bpb.py train "$tok" --seed "$seed" $extra) >> logs/$name.log 2>&1 \
+    (cd uraikal && uv run --extra tokenizers --extra prep --with torch $kernels python experiments/tokenizer_bpb.py train "$tok" --seed "$seed" $extra) >> logs/$name.log 2>&1 \
       || { echo "$name" >> logs/failed; r2 cp logs/$name.log $S3/logs/$PHASE/; r2 cp logs/failed $S3/logs/$PHASE/failed-$WORKER; shutdown -h now; exit 1; }  # stop, don't burn through the list
   fi
   [ -f "$result" ] && { r2 cp "$weights" $S3/models/$PHASE/ && r2 cp "$result" $S3/results/$PHASE/ || exit 1; }  # never report done with a result missing from R2; systemd retries in 60 s

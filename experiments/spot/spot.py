@@ -98,6 +98,10 @@ def pack(_args):
         r2("sync", str(URAIKAL / "data" / d), f"{S3}/{d}", "--only-show-errors", check=True)
     for d in sorted((URAIKAL / "data").glob("bpb*")):  # text and test sets; each machine builds its own token caches
         r2("sync", str(d), f"{S3}/{d.name}", "--exclude", "tokens/*", "--exclude", "models/*", "--only-show-errors", check=True)
+    for listed in sorted((URAIKAL / "data").glob("bpb*/tokens/SHA256SUMS")):  # except caches built ahead (phase D's take an hour)
+        keep = [x for line in listed.read_text().splitlines() for x in ("--include", line.split()[1].rsplit("/", 1)[1])]
+        r2("sync", str(listed.parent), f"{S3}/{listed.parent.parent.name}/tokens", "--exclude", "*", "--include", "SHA256SUMS",
+           *keep, "--only-show-errors", check=True)
     print(f"packed {len(files)} code files and {len(sums.splitlines())} checksums")
 
 
