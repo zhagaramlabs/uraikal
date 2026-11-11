@@ -1,0 +1,115 @@
+{
+ "tokenizer": "data/tamil_tokenizer/qwen3.5+ta-32k.json",
+ "name": "qd-pieces-nlr3-50",
+ "base": "qd-pieces-nlr3-50",
+ "seed": 0,
+ "vocab_size": 280077,
+ "size": "small",
+ "parameters": {
+  "non_embedding": 498113344,
+  "embedding": 286798848
+ },
+ "training": {
+  "tokens": 26214400,
+  "stream_tokens": 2604506990,
+  "steps": 50,
+  "batch": 256,
+  "context": 2048,
+  "lr": 0.0001,
+  "flops": 123456012995788800,
+  "seconds": 1187,
+  "device": "cuda"
+ },
+ "bits_per_byte": {
+  "D4.web": 0.5542944876514668,
+  "D4.literature": 0.7244380146755479,
+  "verse": 1.0783663668899997,
+  "romanized": 2.550292410602135,
+  "english": 0.9552593606304991,
+  "code": 0.8436991959964866,
+  "fresh.web": 0.5321740761738019
+ },
+ "tokens_per_byte": {
+  "D4.web": 0.0675703716652916,
+  "D4.literature": 0.07823921356658264,
+  "verse": 0.101413717084565,
+  "romanized": 0.374541139827209,
+  "english": 0.2245685442507275,
+  "code": 0.27202679514255546,
+  "fresh.web": 0.06265689848428238
+ },
+ "tasks": {
+  "belebele": {
+   "accuracy": 0.3022222222222222,
+   "items": 900
+  },
+  "xcopa": {
+   "accuracy": 0.49666666666666665,
+   "items": 600
+  },
+  "global_piqa": {
+   "accuracy": 0.3645320197044335,
+   "items": 203
+  }
+ },
+ "log": [
+  {
+   "step": 0,
+   "loss": 8.1954,
+   "seconds": 129
+  },
+  {
+   "step": 5,
+   "loss": 7.4833,
+   "seconds": 236
+  },
+  {
+   "step": 10,
+   "loss": 5.7002,
+   "seconds": 343
+  },
+  {
+   "step": 15,
+   "loss": 5.8064,
+   "seconds": 450
+  },
+  {
+   "step": 20,
+   "loss": 4.2543,
+   "seconds": 557
+  },
+  {
+   "step": 25,
+   "loss": 4.0901,
+   "seconds": 672
+  },
+  {
+   "step": 30,
+   "loss": 5.5843,
+   "seconds": 780
+  },
+  {
+   "step": 35,
+   "loss": 4.652,
+   "seconds": 887
+  },
+  {
+   "step": 40,
+   "loss": 2.8787,
+   "seconds": 994
+  },
+  {
+   "step": 45,
+   "loss": 2.9264,
+   "seconds": 1101
+  },
+  {
+   "step": 49,
+   "loss": 4.3678,
+   "seconds": 1187
+  }
+ ],
+ "base_model": "Qwen/Qwen3.5-0.8B-Base",
+ "init": "pieces",
+ "new_lr": 3.0
+}
