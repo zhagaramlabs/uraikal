@@ -346,7 +346,10 @@ def train(args):
         model, ctx = model_for(-(-(n + 1) // 64) * 64, args.size)
         test_ctx = ctx
     model.to(device)
-    embed = model.get_input_embeddings().weight.numel()
+    emb = model.get_input_embeddings().weight
+    embed = emb.numel()
+    added = tokenizer(args.base)[1] if args.base and args.new_lr != 1 else None  # first row the extended tokenizer added
+    assert added is None or n > added, "--new-lr needs a tokenizer that adds tokens to --base"
     total = sum(p.numel() for p in model.parameters())
     seqs = (len(stream) - 1) // ctx
     steps = args.steps or max(1, min(seqs // args.batch, args.max_steps or seqs))
@@ -361,6 +364,7 @@ def train(args):
     ckpt = RESULTS / f"{name}.ckpt"
     setup = {"vocab": n, "size": args.size, "steps": steps, "batch": args.batch, "lr": args.lr}
     setup |= {"base": args.base, "init": args.init, "ctx": ctx} if args.base else {}
+    setup |= {"new_lr": args.new_lr} if added else {}
     first, log, spent = 0, [], 0.0
     if ckpt.exists():  # a preempted run carries on from its last checkpoint
         state = torch.load(ckpt, map_location=device)
@@ -384,7 +388,11 @@ def train(args):
                 loss = torch.nn.functional.cross_entropy(logits.flatten(0, 1).float(), x[:, 1:].flatten())
             (loss * len(idx) / args.batch).backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        before = emb[added:].detach().clone() if added else None
         opt.step()
+        if added:  # Adam's step ignores gradient scale, so the added rows' larger step is applied to the update itself
+            with torch.no_grad():
+                emb[added:] = before + args.new_lr * (emb[added:] - before)
         sched.step()
         opt.zero_grad(set_to_none=True)
         if step % args.log_every == 0 or step == steps - 1:
@@ -407,7 +415,7 @@ def train(args):
                            "flops": 6 * total * steps * args.batch * ctx, "seconds": round(spent + time.time() - start),
                            "device": str(device)},
               **evaluate(model, backend, bos, test_ctx, device), "log": log}
-    result |= {"base_model": args.base, "init": args.init} if args.base else {}
+    result |= {"base_model": args.base, "init": args.init, "new_lr": args.new_lr} if args.base else {}
     (BPB / "models").mkdir(exist_ok=True)  # before the result: a result on disk means its weights are too
     torch.save({k: v.to(torch.bfloat16) for k, v in model.state_dict().items()}, BPB / "models" / f"{name}.pt")
     with open(RESULTS / f"{name}.json.tmp", "w") as f:
@@ -466,6 +474,7 @@ def main():
     a.add_argument("--base", help="phase D: a pretrained Hugging Face model to carry on training, instead of a new one")
     a.add_argument("--ctx", type=int, default=2048, help="with --base: training context in tokens")
     a.add_argument("--init", choices=("pieces", "mean"), default="pieces", help="with --base: how added tokens start")
+    a.add_argument("--new-lr", type=float, default=1.0, help="with --base: the added tokens' rows step this many times as far")
     a = sub.add_parser("score", parents=[data])
     a.add_argument("tokenizer")
     a.add_argument("--base", required=True)
