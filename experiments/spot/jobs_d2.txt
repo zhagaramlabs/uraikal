@@ -1,0 +1,2 @@
+data/tamil_tokenizer/qwen3.5+ta-32k.json 0 --base Qwen/Qwen3.5-0.8B-Base --data bpb-c --steps 382 --lr 1e-4 --micro 4 --no-compile --log-every 10 --init pieces --name qd-pieces-200m
+Qwen/Qwen3.5-0.8B-Base 0 --base Qwen/Qwen3.5-0.8B-Base --data bpb-c --steps 382 --lr 1e-4 --micro 4 --no-compile --log-every 10 --name qd-stock-200m
