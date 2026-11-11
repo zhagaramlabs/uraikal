@@ -1,0 +1,114 @@
+{
+ "tokenizer": "data/tamil_tokenizer/qwen3.5+ta-32k.json",
+ "name": "qd-mean-50",
+ "base": "qd-mean-50",
+ "seed": 0,
+ "vocab_size": 280077,
+ "size": "small",
+ "parameters": {
+  "non_embedding": 498113344,
+  "embedding": 286798848
+ },
+ "training": {
+  "tokens": 26214400,
+  "stream_tokens": 2604506990,
+  "steps": 50,
+  "batch": 256,
+  "context": 2048,
+  "lr": 0.0001,
+  "flops": 123456012995788800,
+  "seconds": 1203,
+  "device": "cuda"
+ },
+ "bits_per_byte": {
+  "D4.web": 0.7846567003763807,
+  "D4.literature": 0.9408424988288856,
+  "verse": 1.265527486051045,
+  "romanized": 2.569060618311521,
+  "english": 0.9565265732670841,
+  "code": 0.9339358476039991,
+  "fresh.web": 0.7473283622575723
+ },
+ "tokens_per_byte": {
+  "D4.web": 0.0675703716652916,
+  "D4.literature": 0.07823921356658264,
+  "verse": 0.101413717084565,
+  "romanized": 0.374541139827209,
+  "english": 0.2245685442507275,
+  "code": 0.27202679514255546,
+  "fresh.web": 0.06265689848428238
+ },
+ "tasks": {
+  "belebele": {
+   "accuracy": 0.26555555555555554,
+   "items": 900
+  },
+  "xcopa": {
+   "accuracy": 0.49833333333333335,
+   "items": 600
+  },
+  "global_piqa": {
+   "accuracy": 0.31527093596059114,
+   "items": 203
+  }
+ },
+ "log": [
+  {
+   "step": 0,
+   "loss": 10.5256,
+   "seconds": 25
+  },
+  {
+   "step": 5,
+   "loss": 9.5711,
+   "seconds": 145
+  },
+  {
+   "step": 10,
+   "loss": 7.4434,
+   "seconds": 265
+  },
+  {
+   "step": 15,
+   "loss": 7.9078,
+   "seconds": 386
+  },
+  {
+   "step": 20,
+   "loss": 6.0519,
+   "seconds": 506
+  },
+  {
+   "step": 25,
+   "loss": 5.0025,
+   "seconds": 626
+  },
+  {
+   "step": 30,
+   "loss": 7.4781,
+   "seconds": 746
+  },
+  {
+   "step": 35,
+   "loss": 6.6479,
+   "seconds": 866
+  },
+  {
+   "step": 40,
+   "loss": 3.8305,
+   "seconds": 987
+  },
+  {
+   "step": 45,
+   "loss": 3.6006,
+   "seconds": 1107
+  },
+  {
+   "step": 49,
+   "loss": 5.0759,
+   "seconds": 1203
+  }
+ ],
+ "base_model": "Qwen/Qwen3.5-0.8B-Base",
+ "init": "mean"
+}

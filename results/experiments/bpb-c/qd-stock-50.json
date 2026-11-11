@@ -1,0 +1,114 @@
+{
+ "tokenizer": "Qwen/Qwen3.5-0.8B-Base",
+ "name": "qd-stock-50",
+ "base": "qd-stock-50",
+ "seed": 0,
+ "vocab_size": 248077,
+ "size": "small",
+ "parameters": {
+  "non_embedding": 498113344,
+  "embedding": 254279680
+ },
+ "training": {
+  "tokens": 26214400,
+  "stream_tokens": 4576073906,
+  "steps": 50,
+  "batch": 256,
+  "context": 2048,
+  "lr": 0.0001,
+  "flops": 118341190130073600,
+  "seconds": 907,
+  "device": "cuda"
+ },
+ "bits_per_byte": {
+  "D4.web": 0.48739781179462416,
+  "D4.literature": 0.6415415871503654,
+  "verse": 0.9869525443579162,
+  "romanized": 2.5897262209292493,
+  "english": 0.9533720678849087,
+  "code": 0.8119060029867851,
+  "fresh.web": 0.47486164268043624
+ },
+ "tokens_per_byte": {
+  "D4.web": 0.17301221497619043,
+  "D4.literature": 0.17569893124937908,
+  "verse": 0.18845034335715935,
+  "romanized": 0.374541139827209,
+  "english": 0.2245685442507275,
+  "code": 0.2901019667370644,
+  "fresh.web": 0.1686904846055196
+ },
+ "tasks": {
+  "belebele": {
+   "accuracy": 0.33,
+   "items": 900
+  },
+  "xcopa": {
+   "accuracy": 0.4766666666666667,
+   "items": 600
+  },
+  "global_piqa": {
+   "accuracy": 0.4039408866995074,
+   "items": 203
+  }
+ },
+ "log": [
+  {
+   "step": 0,
+   "loss": 1.8563,
+   "seconds": 29
+  },
+  {
+   "step": 5,
+   "loss": 2.5524,
+   "seconds": 118
+  },
+  {
+   "step": 10,
+   "loss": 2.3044,
+   "seconds": 208
+  },
+  {
+   "step": 15,
+   "loss": 2.3401,
+   "seconds": 298
+  },
+  {
+   "step": 20,
+   "loss": 2.4998,
+   "seconds": 387
+  },
+  {
+   "step": 25,
+   "loss": 3.2929,
+   "seconds": 477
+  },
+  {
+   "step": 30,
+   "loss": 2.4464,
+   "seconds": 567
+  },
+  {
+   "step": 35,
+   "loss": 2.121,
+   "seconds": 656
+  },
+  {
+   "step": 40,
+   "loss": 1.6792,
+   "seconds": 746
+  },
+  {
+   "step": 45,
+   "loss": 2.2032,
+   "seconds": 836
+  },
+  {
+   "step": 49,
+   "loss": 1.8483,
+   "seconds": 907
+  }
+ ],
+ "base_model": "Qwen/Qwen3.5-0.8B-Base",
+ "init": "pieces"
+}
