@@ -133,6 +133,7 @@ KURAL_BOOK = "திருக்குறள், மூலம்"  # Wikisource 
 # Transcription slips in that copy, each checked against Wikisource's "திருக்குறள் பரிமேலழகர் உரை"
 # (2026-11-01). Word-spacing differences are left alone: the Yaappu checker re-divides the சீர் itself.
 KURAL_ERRATA = {
+    51: ("மனைத்தக்க மாண்புடையள் ஆகித்தற் கொண்டான்", None),  # மனைக்தக்க
     114: (None, "எச்சத்தாற் காணப் படும்"),  # காணப்ப
     434: (None, "அற்றந் தரூஉம் பகை"),  # த்ரூஉம்
     738: (None, "அணியென்ப நாட்டிற்கிவ் வைந்து"),  # நாட்டிவ்
