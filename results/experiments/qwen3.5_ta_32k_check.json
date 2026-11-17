@@ -1,0 +1,156 @@
+{
+ "source": "data/tamil_tokenizer/qwen3.5+ta-32k.json",
+ "tokenizer_json_sha256": "332504101d5304795b5f6f94c8b69090f5190d76ba354b04d72c473f475a4ffc",
+ "tokenizer_config_from": "Qwen/Qwen3.5-0.8B-Base@dc7cdfe2ee4154fa7e30f5b51ca41bfa40174e68",
+ "base_tokens": 248077,
+ "vocab_size": 280077,
+ "new_tokens_without_tamil": [
+  "Delhi"
+ ],
+ "slices": {
+  "D4.web": {
+   "passages": 2000,
+   "same_ids": 2000,
+   "exact_round_trip": 2000,
+   "same_ids_as_stock": 0,
+   "tokens_per_byte": 0.0676,
+   "stock_tokens_per_byte": 0.173
+  },
+  "D4.literature": {
+   "passages": 1000,
+   "same_ids": 1000,
+   "exact_round_trip": 1000,
+   "same_ids_as_stock": 0,
+   "tokens_per_byte": 0.0782,
+   "stock_tokens_per_byte": 0.1757
+  },
+  "verse": {
+   "passages": 1330,
+   "same_ids": 1330,
+   "exact_round_trip": 1330,
+   "same_ids_as_stock": 0,
+   "tokens_per_byte": 0.1014,
+   "stock_tokens_per_byte": 0.1885
+  },
+  "romanized": {
+   "passages": 2000,
+   "same_ids": 2000,
+   "exact_round_trip": 2000,
+   "same_ids_as_stock": 2000,
+   "tokens_per_byte": 0.3745,
+   "stock_tokens_per_byte": 0.3745
+  },
+  "english": {
+   "passages": 2000,
+   "same_ids": 2000,
+   "exact_round_trip": 2000,
+   "same_ids_as_stock": 2000,
+   "tokens_per_byte": 0.2246,
+   "stock_tokens_per_byte": 0.2246
+  },
+  "code": {
+   "passages": 27,
+   "same_ids": 27,
+   "exact_round_trip": 27,
+   "same_ids_as_stock": 10,
+   "tokens_per_byte": 0.272,
+   "stock_tokens_per_byte": 0.2901
+  },
+  "fresh.web": {
+   "passages": 2000,
+   "same_ids": 2000,
+   "exact_round_trip": 2000,
+   "same_ids_as_stock": 0,
+   "tokens_per_byte": 0.0627,
+   "stock_tokens_per_byte": 0.1687
+  }
+ },
+ "d4": {
+  "fresh.web": {
+   "extended": {
+    "tokens_per_word": 1.5346384052235853,
+    "bytes_per_token": 15.959934567314278,
+    "letter_cut_words": 0.07797782884270599,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 1.262594378929825e-05,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   },
+   "stock": {
+    "tokens_per_word": 4.131690245350217,
+    "bytes_per_token": 5.9280166414749855,
+    "letter_cut_words": 0.6321557536425848,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.02858513673897124,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 80864
+   }
+  },
+  "D4.web": {
+   "extended": {
+    "tokens_per_word": 1.6699978046103183,
+    "bytes_per_token": 14.799385815923564,
+    "letter_cut_words": 0.09486416313089735,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 1.8093489057962494e-05,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   },
+   "stock": {
+    "tokens_per_word": 4.27598682766191,
+    "bytes_per_token": 5.779938717839188,
+    "letter_cut_words": 0.6447343423469065,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.032342111691107955,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 2000,
+    "words": 113875
+   }
+  },
+  "D4.literature": {
+   "extended": {
+    "tokens_per_word": 1.934226958621264,
+    "bytes_per_token": 12.781314566115702,
+    "letter_cut_words": 0.16624895572263992,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 6.4263222157959e-05,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   },
+   "stock": {
+    "tokens_per_word": 4.343622512696695,
+    "bytes_per_token": 5.691554256415171,
+    "letter_cut_words": 0.6568129726024463,
+    "pretokenizer_letter_cut_words": 0.0,
+    "byte_cut_words": 0.02148533727481096,
+    "unk_per_1k": 0.0,
+    "round_trip": 1.0,
+    "passages": 1000,
+    "words": 48044
+   }
+  }
+ },
+ "sample_tokens": {
+  "extended": [
+   "à®¤à®®à®¿à®´à¯į",
+   "Ġà®İà®´à¯ģà®¤à¯įà®¤à¯ģ"
+  ],
+  "stock": [
+   "à®¤",
+   "à®®à®¿à®´",
+   "à¯į",
+   "Ġà®İ",
+   "à®´à¯ģ",
+   "à®¤à¯įà®¤à¯ģ"
+  ]
+ }
+}

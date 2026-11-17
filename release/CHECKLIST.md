@@ -1,3 +1,13 @@
+# Releases
+
+## Qwen3.5 + Tamil 32k: public
+
+[zhagaramlabs/qwen3.5-ta-32k](https://huggingface.co/zhagaramlabs/qwen3.5-ta-32k), uploaded on 2026-11-16 after
+Jay's "Yes, publish it" (HF commit `7c00e03`). It's `data/tamil_tokenizer/qwen3.5+ta-32k.json` byte for byte, with
+Qwen3.5-0.8B-Base's `tokenizer_config.json` set to `PreTrainedTokenizerFast`; `release/make_qwen_ta.py` builds and
+checks the folder. Apache 2.0, as Qwen3.5. The d5 weights trained with it are not released. Any further publish
+(website, social posts) still needs Jay's OK.
+
 # Publishing Ezhuthu
 
 **Ezhuthu 64k is public:** [zhagaramlabs/ezhuthu-64k](https://huggingface.co/zhagaramlabs/ezhuthu-64k), uploaded

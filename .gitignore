@@ -6,3 +6,6 @@ dist/
 hyps/*.classics.jsonl
 # Built by release/make_ezhuthu.py; the file itself ships on Hugging Face
 release/ezhuthu-64k/tokenizer.json
+
+# Built by release/make_qwen_ta.py; the file itself ships on Hugging Face
+release/qwen3.5-ta-32k/tokenizer.json
